@@ -5,6 +5,7 @@ run:
 	./read_raws.sh
 
 kraken:
+	mkdir -p ./bin
 	clang++ -std=c++20 -O3 -lcurl ./src/kraken_trade.cpp  -o ./bin/kraken_trade
 	clang++ -std=c++20 -O3 -lcurl ./src/kraken_spread.cpp -o ./bin/kraken_spread
 	clang++ -std=c++20 -O3 -lcurl ./src/kraken_ohlc.cpp   -o ./bin/kraken_ohlc
