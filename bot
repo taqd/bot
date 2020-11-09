@@ -1,0 +1,62 @@
+#!/bin/bash
+
+function init {                                                           # dirs used by:
+  mkdir -p ./data/raw      ./data/state                                   # download.sh
+  mkdir -p ./data/windows  ./data/targets ./data/archive                  # read_raws.sh
+  mkdir -p ./data/analysis ./data/forecast                                # analyze.sh
+  mkdir -p ./data/training                                                # models
+
+  echo -n "age: "
+  age_file=./data/state/age
+  if [[ ! -f "${age_file}" ]]; then
+    echo -n 0 > ${age_file}  
+    echo -n 0;
+  else
+    tmp=`cat ${age_file}` 
+    let tmp=tmp+1
+    echo -n ${tmp} > ${age_file}
+    echo -n ${tmp}
+  fi
+}
+
+function download {
+  cd 0_download
+  ./download.sh                                                           # internet -> raw
+  ./read_raws.sh                                                          # raw      -> windows
+  cd ..                                                                   #          -> targets
+}
+
+function analyze {
+  cd 1_analyze
+  ./analyze.sh                                                            # windows  -> analysis
+  ./archive.sh                                                            #          -> forecast
+  cd ..                                                                   # all      -> archive
+}
+
+function model {
+  cd 2_models
+  ./model.sh
+  cd ..
+}
+
+while true
+do
+  SECONDS=0   
+  init
+  download
+  analyze                                 
+  model
+
+  let LEFT=60-SECONDS
+  echo -n -e " | ${SECONDS}s waiting: "
+
+  while [ $LEFT -gt 0 ]
+  do
+    let LEFT=LEFT-1
+    echo -n $LEFT
+    sleep 1
+    echo -n -e '\b\b  \b\b'
+  done
+
+  echo -e " \033[;35m\u2713\033[0m "  
+done
