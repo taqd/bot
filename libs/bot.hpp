@@ -116,7 +116,7 @@ void write_append(string file, string value) {
 
 void write_trunc(string file, string value) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
-  out << value << " " << flush;
+  out << value << "\t" << flush;
 }
 void write_trunc(string file, vector<string>& values) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
@@ -160,7 +160,7 @@ void check_and_save(string f, float value){
   if (low > value || hi < value) 
     throw "out-of-range:"+to_string(low)+"<"+to_string(value)+"<"+to_string(hi);
   ostringstream value_str;
-  value_str << fixed << setprecision(2) << value << " ";
+  value_str << fixed << setprecision(2) << value;
   string ret = value_str.str();
   write_trunc(f,ret);
 }
