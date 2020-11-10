@@ -7,7 +7,7 @@ import statsmodels.api as sm
 
 def write_stat(ddir, filename, suffix, value):
     f = open(ddir + filename + "_" + suffix, "w")  
-    out_str = format(value,".2f") + "\t"
+    out_str = " " + format(value,".2f") 
     f.write(out_str)
     f.close()
    

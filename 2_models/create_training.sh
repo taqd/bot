@@ -14,33 +14,55 @@ do
   dataname=${name##*_}
   datatype="${datasrc}_${dataname}"
 
+  let once=1
   for file in $root/../data/raw/${paircode}_*
   do
     if [[ ${age} -eq 3 ]]
     then
       echo $file >> $root/../data/training/${name}_names.csv
     fi
-    cat $file >> $root/../data/training/$name.csv
+    if [[ $once -eq 1 ]]
+    then
+      let once=0
+    else
+      echo -n -e ", " >> $root/../data/training/$name.csv
+    fi
+    cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
   done
 
+  let once=1
   for file in $root/../data/raw/*_${datatype}
   do
     if [[ ${age} -eq 3 ]]
     then
       echo $file >> $root/../data/training/${name}_names.csv
     fi
-    cat $file >> $root/../data/training/$name.csv
+    if [[ $once -eq true ]]
+    then
+      let once=0
+    else
+      echo -n -e ", " >> $root/../data/training/$name.csv
+    fi
+    cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
   done
 
+  let once=1
   for file in $root/../data/analysis/${name}_*
   do
     if [[ ${age} -eq 3 ]]
     then
       echo $file >> $root/../data/training/${name}_names.csv
     fi
-    cat $file >> $root/../data/training/$name.csv
+    if [[ $once -eq true ]]
+    then
+      let once=0
+    else
+      echo -n -e ", " >> $root/../data/training/$name.csv
+    fi
+    cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
   done
 
+  let once=1
   for file in $root/../data/forecast/${name}_*
   do
     if [[ -f $file ]]
@@ -49,7 +71,13 @@ do
       then
         echo $file >> $root/../data/training/${name}_names.csv
       fi
-      cat $file >> $root/../data/training/$name.csv
+      if [[ $once -eq true ]]
+      then
+        let once=0
+      else
+        echo -n -e ", " >> $root/../data/training/$name.csv
+      fi
+      cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
     fi
   done
   echo >> $root/../data/training/$name.csv

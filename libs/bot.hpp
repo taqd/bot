@@ -116,7 +116,7 @@ void write_append(string file, string value) {
 
 void write_trunc(string file, string value) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
-  out << value << "\t" << flush;
+  out << " " << value << flush;
 }
 void write_trunc(string file, vector<string>& values) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
