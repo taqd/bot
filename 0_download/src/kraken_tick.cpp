@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
     }
   } 
   catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E');}
+  catch (string s) {cerr << s << " ::: " << ret << "\n\n";          print_symbol('E');}
   catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E');}
 
   print_symbol('T');

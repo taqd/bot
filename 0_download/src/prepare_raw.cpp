@@ -37,11 +37,11 @@ int main(int argc, char* argv[]) {
     for (int w : windows) {                                               // eg. {10,60,1440,10080}
       string win_size{to_string(w)},
              window_filename{windows_dir + filename + "_" + win_size},
-             target_filename{targets_dir + filename + "_" + win_size + "_target"};
+             target_filename{targets_dir + filename + "_" + win_size};
       vector<string> window{get_all(window_filename)}, window_in{window}; // read window
       window.push_back(value); 
       int target = (window.size() > 0) ? get_target(window[0], window[window.size()-1]) : 0;
-      if (window.size() > 2) write_append(target_filename, to_string(target)); // update target file
+      if (window.size() > 3) write_trunc(target_filename, to_string(target)); // update target file
       if (window.size() > stoi(win_size)) window.erase(window.begin());   
       if (window_in != window) write_trunc(window_filename, window);      // update window file
       if (filename == target_name) tmp_targets.push_back(target);

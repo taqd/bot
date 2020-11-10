@@ -17,7 +17,7 @@ function forecast {
 SECONDS=0   
 
 echo -n " |"
-if [[ ${age} -gt 1 ]]
+if [[ ${age} -gt 2 ]]
 then
   base_analysis & 
   forecast &

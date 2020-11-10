@@ -29,7 +29,7 @@ function download {
 function analyze {
   cd 1_analyze
   ./analyze.sh                                                            # windows  -> analysis
-  ./archive.sh                                                            #          -> forecast
+ # ./archive.sh                                                            #          -> forecast
   cd ..                                                                   # all      -> archive
 }
 

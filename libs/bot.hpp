@@ -26,7 +26,7 @@ int DB = 0;
 
 vector<int> windows{10, 60, 1440, 10080};
 
-string root_dir         = "/home/tyler/bot/",
+string root_dir         = "../",
        data_dir         = root_dir + "data/",
        raw_dir          = data_dir + "raw/",
        windows_dir      = data_dir + "windows/",
@@ -99,7 +99,7 @@ vector<string> get_last(string file, int n) {
   vector<string> ret; string tmp;
   ifstream in{file, ios_base::ate}; if (!in) throw "bad_get_lastN: " + file;
   for(int i=in.tellg(), nn=n; i>0 && nn>=0; --i) {
-    in.seekg(-1, ios_base::cur); if (in.peek() == '\t') nn--;
+    in.seekg(-1, ios_base::cur); if (in.peek() == '\n') nn--;
   }
   while (in >> tmp) ret.push_back(tmp); return ret;
 }
@@ -111,12 +111,12 @@ string get_last(string file) {
 
 void write_append(string file, string value) {
   ofstream out{file, ios_base::app}; if (!out) throw "bad append with" + file;
-  out << value << '\t';
+  out << value << '\n' << flush;
 }
 
 void write_trunc(string file, string value) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
-  out << value << '\t';
+  out << value << " " << flush;
 }
 void write_trunc(string file, vector<string>& values) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
@@ -159,7 +159,10 @@ void check_and_save(string f, float value){
   float low{0}, hi{100000000};                              //min val, max val
   if (low > value || hi < value) 
     throw "out-of-range:"+to_string(low)+"<"+to_string(value)+"<"+to_string(hi);
-  write_trunc(f, to_string(value));
+  ostringstream value_str;
+  value_str << fixed << setprecision(2) << value << " ";
+  string ret = value_str.str();
+  write_trunc(f,ret);
 }
 void check_and_save(string f, string v){ check_and_save(f, stof(v)); }
 void check_and_save(string f, int v){ check_and_save(f, static_cast<float>(v)); }
