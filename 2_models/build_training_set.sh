@@ -16,11 +16,7 @@ function create_training {
     cat $file >> $root/../data/training/$1
   done
   echo >> $root/../data/training/$1
-
  }
-
-
-
 
 
 echo -n -e " | model: "

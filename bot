@@ -4,7 +4,7 @@ function init {                                                           # dirs
   mkdir -p ./data/raw      ./data/state                                   # download.sh
   mkdir -p ./data/windows  ./data/targets ./data/archive                  # read_raws.sh
   mkdir -p ./data/analysis ./data/forecast                                # analyze.sh
-  mkdir -p ./data/training                                                # models
+  mkdir -p ./data/training ./data/modeling                                # models
 
   echo -n "age: "
   age_file=./data/state/age

@@ -25,9 +25,9 @@ do
     then
       let once=0
     else
-      echo -n -e ", " >> $root/../data/training/$name.csv
+      echo -n -e ", " >> $root/../data/training/${name}_data.csv
     fi
-    cat $file >> $root/../data/training/$name.csv
+    cat $file >> $root/../data/training/${name}_data.csv
   done
 
   let once=1
@@ -41,9 +41,9 @@ do
     then
       let once=0
     else
-      echo -n -e ", " >> $root/../data/training/$name.csv
+      echo -n -e ", " >> $root/../data/training/${name}_data.csv
     fi
-    cat $file >> $root/../data/training/$name.csv
+    cat $file >> $root/../data/training/${name}_data.csv
   done
 
   let once=1
@@ -57,9 +57,9 @@ do
     then
       let once=0
     else
-      echo -n -e ", " >> $root/../data/training/$name.csv
+      echo -n -e ", " >> $root/../data/training/${name}_data.csv
     fi
-    cat $file >> $root/../data/training/$name.csv
+    cat $file >> $root/../data/training/${name}_data.csv
   done
 
   let once=1
@@ -75,12 +75,12 @@ do
       then
         let once=0
       else
-        echo -n -e ", " >> $root/../data/training/$name.csv
+        echo -n -e ", " >> $root/../data/training/${name}_data.csv
       fi
-      cat $file  >> $root/../data/training/$name.csv
+      cat $file  >> $root/../data/training/${name}_data.csv
     fi
   done
-  echo >> $root/../data/training/$name.csv
+  echo >> $root/../data/training/${name}_data.csv
 
 done
 
