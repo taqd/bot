@@ -3,33 +3,23 @@ root=~/bot/2_models
 
 for file in "$@"
 do
+  continue
   name=${file##*/}
   name=${name%_data.*}
-  # tail -n -10 data | sed 's/nan/0/g' > ../data/modeling/${name}_tmp.csv
-  # head -n -10 targets > ../data/modeling/${target}_${window}
+  #tail -n -10 data | sed 's/nan/0/g' > ../data/modeling/${name}_tmp.csv
   # normalize targets
 
-  datafile=$file
-  label10=$root/../data/training/${name}_10_label.csv
-  label60=$root/../data/training/${name}_60_label.csv
-  label1440=$root/../data/training/${name}_1440_label.csv
-  label10080=$root/../data/training/${name}_10080_label.csv
+  data=$file
+  data_10=$root/../data/modeling/${name}_data_10_norm.csv
+  data_10_norm=$root/../data/modeling/${name}_data_10_norm.csv
+  label_10=$root/../data/training/${name}_10_label.csv 
+  label_10_train=$root/../data/modeling/${name}_10_label_train.csv
+  label_10_norm=$root/../data/modeling/${name}_10_label_norm.csv
+  label_10_pred=$root/../data/modeling/${name}_10_label_pred.csv
 
-  mlpack_preprocess_scale -i $datafile -o ../data/modeling/${name}_normed.csv \
-      -a min_max_scaler -e 2 -b -2
-  mlpack_preprocess_scale -i $label10 -o ../data/modeling/${name}_normed.csv \
-      -a min_max_scaler -e 2 -b -2
-  mlpack_preprocess_scale -i $label60 -o ../data/modeling/${name}_normed.csv \
-      -a min_max_scaler -e 2 -b -2
-  mlpack_preprocess_scale -i $label1440 -o ../data/modeling/${name}_normed.csv \
-      -a min_max_scaler -e 2 -b -2
-  mlpack_preprocess_scale -i $label10080 -o ../data/modeling/${name}_normed.csv \
-      -a min_max_scaler -e 2 -b -2
-
-
-
-
-  #mlpack_perceptron -l ../data/training/XXBTZUSD_tick_askprice_10_labels.csv -t \
-  #  ../data/modeling/${name}_normed.csv -T ../data/modeling/${name}_normed.csv -P \
-  #    ../data/modeling/${name}_predictions.csv -n 100000
+  head -n -10 $label_10 > $label_10_train
+  tail -n -10 $data | sed 's/nan/0/g' > $data_10
+  mlpack_preprocess_scale -i $data_10 -o $data_10_norm -a min_max_scaler -e 2 -b -2
+  mlpack_preprocess_scale -i $label_10_train -o $label_10_norm -a min_max_scaler -e 2 -b -2
+  mlpack_perceptron -l $label_10_norm -t $data_norm -T $data_norm -P $label_10_pred 
 done
