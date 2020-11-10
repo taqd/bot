@@ -27,7 +27,7 @@ do
     else
       echo -n -e ", " >> $root/../data/training/$name.csv
     fi
-    cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
+    cat $file >> $root/../data/training/$name.csv
   done
 
   let once=1
@@ -43,7 +43,7 @@ do
     else
       echo -n -e ", " >> $root/../data/training/$name.csv
     fi
-    cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
+    cat $file >> $root/../data/training/$name.csv
   done
 
   let once=1
@@ -59,7 +59,7 @@ do
     else
       echo -n -e ", " >> $root/../data/training/$name.csv
     fi
-    cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
+    cat $file >> $root/../data/training/$name.csv
   done
 
   let once=1
@@ -77,7 +77,7 @@ do
       else
         echo -n -e ", " >> $root/../data/training/$name.csv
       fi
-      cat $file | sed 's/nan/0/g' >> $root/../data/training/$name.csv
+      cat $file  >> $root/../data/training/$name.csv
     fi
   done
   echo >> $root/../data/training/$name.csv
