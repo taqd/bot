@@ -18,27 +18,27 @@ do
   do
     if [[ ${age} -eq 3 ]]
     then
-      echo $file >> $root/../data/training/${name}_names
+      echo $file >> $root/../data/training/${name}_names.csv
     fi
-    cat $file >> $root/../data/training/$name
+    cat $file >> $root/../data/training/$name.csv
   done
 
   for file in $root/../data/raw/*_${datatype}
   do
     if [[ ${age} -eq 3 ]]
     then
-      echo $file >> $root/../data/training/${name}_names
+      echo $file >> $root/../data/training/${name}_names.csv
     fi
-    cat $file >> $root/../data/training/$name
+    cat $file >> $root/../data/training/$name.csv
   done
 
   for file in $root/../data/analysis/${name}_*
   do
     if [[ ${age} -eq 3 ]]
     then
-      echo $file >> $root/../data/training/${name}_names
+      echo $file >> $root/../data/training/${name}_names.csv
     fi
-    cat $file >> $root/../data/training/$name
+    cat $file >> $root/../data/training/$name.csv
   done
 
   for file in $root/../data/forecast/${name}_*
@@ -47,12 +47,12 @@ do
     then
       if [[ ${age} -eq 3 ]]
       then
-        echo $file >> $root/../data/training/${name}_names
+        echo $file >> $root/../data/training/${name}_names.csv
       fi
-      cat $file >> $root/../data/training/$name
+      cat $file >> $root/../data/training/$name.csv
     fi
   done
-  echo >> $root/../data/training/$name
+  echo >> $root/../data/training/$name.csv
 
 done
 
