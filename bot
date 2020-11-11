@@ -2,9 +2,9 @@
 
 function init {                                                           # dirs used by:
   mkdir -p ./data/raw      ./data/state                                   # download.sh
-  mkdir -p ./data/windows  ./data/targets ./data/archive                  # read_raws.sh
+  mkdir -p ./data/windows  ./data/targets                                 # read_raws.sh
   mkdir -p ./data/analysis ./data/forecast                                # analyze.sh
-  mkdir -p ./data/training ./data/modeling                                # models
+  mkdir -p ./data/training ./data/modeling ./data/predicts                # models
 
   echo -n "age: "
   age_file=./data/state/age
@@ -29,7 +29,6 @@ function download {
 function analyze {
   cd 1_analyze
   ./analyze.sh                                                            # windows  -> analysis
- # ./archive.sh                                                            #          -> forecast
   cd ..                                                                   # all      -> archive
 }
 
