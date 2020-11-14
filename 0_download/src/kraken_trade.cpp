@@ -69,9 +69,9 @@ int main(int argc, char *argv[]) {
           << ")\tsell limit::" << sl_price << "/" << sl_volume << "(" << sl_scale 
           << ")\n";
     } 
-    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E');}
-    catch (string s) {cerr << s << " ::: " << ret << "\n\n";          print_symbol('E');}
-    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E');}
+    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E'); return 0;}
+    catch (string s) {cerr << s << " ::: " << ret << "\n\n";          print_symbol('E'); return 0;}
+    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E'); return 0;}
   }
   print_symbol('X');
   return 0;

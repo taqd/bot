@@ -24,7 +24,7 @@ using json = nlohmann::json;
 int DB = 0;
 /**************************GLOBALS*********************************************/
 
-vector<int> windows{10, 60, 1440};
+vector<string> windows{"3","10", "60"};
 
 string root_dir         = "../",
        data_dir         = root_dir + "data/",
@@ -34,7 +34,7 @@ string root_dir         = "../",
        forecast_dir     = data_dir + "forecast/",
        models_dir       = data_dir + "models/",
        state_dir        = data_dir + "state/",
-       archive_dir      = data_dir + "archive/",
+       predictions_dir  = data_dir + "predictions/",
        targets_dir      = data_dir + "targets/",
        target_name      = "XXBTZUSD_tick_askprice",
        ask_filename     = raw_dir + target_name,

@@ -31,8 +31,8 @@ int main(int argc, char *argv[]) {
         cout << fixed << setprecision(2) << paircode 
           << "   \tspread ask: \t" << spread_ask << "\tspread bid: " << spread_bid << endl;
     }
-    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E');}
-    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E');}
+    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E'); return 0;}
+    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E'); return 0;}
   }
   print_symbol('S');
   return 0;

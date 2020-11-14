@@ -40,8 +40,8 @@ int main(int argc, char *argv[]) {
           << paircode << "   " << "\tasks:" << ask_price << "/" 
           << ask_volume << "\tbids:" << bid_price << "/" << bid_volume << endl;
     }
-    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E');}
-    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E');}
+    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E'); return 0;}
+    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E'); return 0;}
   }
   curl_easy_cleanup(c);
 

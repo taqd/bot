@@ -54,8 +54,8 @@ int main(int argc, char *argv[]) {
           << "\t vol:" << ohlc_vol
           << "\t num:" << ohlc_count << endl;
     }
-    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E'); }
-    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E'); }
+    catch (const char* s) {cerr << ret << "\n\n";                     print_symbol('E'); return 0;}
+    catch (exception& e)  {cerr << e.what() << endl << ret << "\n\n"; print_symbol('E'); return 0;}
   }
   print_symbol('O');
   return 0;

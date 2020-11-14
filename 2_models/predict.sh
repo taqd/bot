@@ -1,56 +1,67 @@
 #!/bin/bash
 root=~/bot/2_models
+datum_file=$1
+name=${datum_file##*/}
 
-file=$1
-name=${file##*/}
-name=${name%_data.*}
+datums=$root/../data/training/${name}_data.csv
+targets=$root/../data/training/${name}_labels.csv
 
-data=$file
-data_10=$root/../data/modeling/${name}_data_10.csv
-head -n -10 $data | sed 's/nan/0/g' > $data_10 
+train=$root/../data/modeling/${name}_train.csv
+labels=$root/../data/modeling/${name}_labels.csv
+testing=$root/../data/modeling/${name}_test.csv
 
-labels=$root/../data/training/${name}_10_labels.csv 
-labels_10=$root/../data/modeling/${name}_10_labels.csv
-tail -n +11 $labels > $labels_10 
+train_norm=$root/../data/modeling/${name}_train_norm.csv
+labels_norm=$root/../data/modeling/${name}_labels_norm.csv
+testing_norm=$root/../data/modeling/${name}_test_norm.csv
 
-test_set=$root/../data/training/${name}_test.csv
-tail -n 10 $data | sed 's/nan/0/g' > $test_set
+norm_model=$root/../data/modeling/${name}_norm_model.txt
+perc1_model=$root/../data/modeling/${name}_perc1_model.txt
 
-train_size=`cat $data_10 | wc -l`
-if [[ $train_size -gt 3 ]]
+perc1_preds=$root/../data/predictions/${name}_perc1.csv
+
+window=${datum_file##*_}
+let windowplus1=window+1
+
+#echo "datum file: ${window}"
+#exit
+let training_size=window*2
+tail -n $training_size $datums > ${datums}_tmp
+mv ${datums}_tmp $datums
+head -n -${window} $datums | sed 's/nan/0/g' > $train
+tail -n 1 $datums | sed 's/nan/0/g' > $testing
+train_size=`cat $train | wc -l`
+
+tail -n $training_size $targets > ${targets}_tmp
+mv ${targets}_tmp $targets
+tail -n +${windowplus1} $targets > $labels 
+
+if [[ $train_size -gt 0 ]]
 then
-  norm_model=$root/../data/modeling/${name}_norm_model.txt
-  echo -n > $norm_model
-
-  data_10_norm=$root/../data/modeling/${name}_data_10_norm.csv
+  
   mlpack_preprocess_scale -a min_max_scaler -e 2 -b -2 \
-    --input_file $data_10 \
-    --output_file $data_10_norm \
+    --input_file $train                                \
+    --output_file $train_norm                          \
     --output_model_file $norm_model
 
-  labels_10_norm=$root/../data/modeling/${name}_10_labels_norm.csv
   mlpack_preprocess_scale -a min_max_scaler -e 2 -b -2 \
-    --input_file $labels_10 \
-    --output_file $labels_10_norm 
+    --input_model_file $norm_model                     \
+    --input_file $labels                               \
+    --output_file $labels_norm 
 
-  test_set_norm=$root/../data/modeling/${name}_test_norm.csv
   mlpack_preprocess_scale -a min_max_scaler -e 2 -b -2 \
-    --input_model_file $norm_model \
-    --input_file $test_set \
-    --output_file $test_set_norm 
+    --input_model_file $norm_model                     \
+    --input_file $testing                              \
+    --output_file $testing_norm 
 
-  pred_file=$root/../data/predicts/${name}.csv  
+  mlpack_perceptron --max_iterations 1000 \
+    --labels_file $labels_norm            \
+    --training_file $train_norm           \
+    --test_file $testing_norm             \
+    --predictions_file $perc1_preds       \
+    --output_model_file $perc1_model
 
-  mlpack_perceptron --max_iterations 100000 \
-    --labels_file $labels_10_norm \
-    --training_file $data_10_norm \
-    --test_file $test_set_norm \
-    --predictions_file $pred_file 
-
-
-cat $pred_file | tr -d '\n' > ${pred_file}.tmp
-echo -n -e "$name      \t" > $pred_file
-cat ${pred_file}.tmp >> $pred_file
-echo >> $pred_file
-rm ${pred_file}.tmp
 fi
+
+
+
+    #--input_model_file $perc1_model       \

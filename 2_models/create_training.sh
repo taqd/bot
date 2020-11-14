@@ -3,19 +3,17 @@ root=~/bot/2_models
 
 age=`cat $root/../data/state/age`
 
-for datum_file in "$@"
+for window_file in "$@"
 do
 
-  datum_name=${datum_file##*/}
-  paircode=${datum_name%_*_*}
+  datum_name=${window_file##*/}
+  paircode=${datum_name%_*_*_*}
   datatype=${datum_name%_*}
-  datasrc=${datatype%_*}
-  datasrc=${datatype##*_}
-  dataname=${datum_name##*_}
-  datatype="${datasrc}_${dataname}"
+  datatype=${datatype##*_}
 
   name_file=$root/../data/training/${datum_name}_names.csv
   training_file=$root/../data/training/${datum_name}_data.csv
+
   let once=1
   for datum_file in $root/../data/raw/${paircode}_*
   do
@@ -84,7 +82,7 @@ do
   done
   echo >> $training_file 
 
-  ./predict.sh $training_file  
+  ./predict.sh $window_file  
 done
 
 ##find ../data/windows/ -type f -print0 | xargs -0 -n 100 -P 16 ./create_training.sh 
@@ -106,4 +104,10 @@ done
 #  create_training ${window##*/} 
 #done
 #
-#
+#  echo "name file: $name_file"
+#  echo "training file: $training_file"
+#  echo "paircode: $paircode"
+#  echo "data_name: $datum_name"
+#  echo "datatype: $datatype"
+#  continue;
+
