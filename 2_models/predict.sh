@@ -66,9 +66,15 @@ then
       --labels_file $labels_norm            \
       --training_file $train_norm           \
       --test_file $testing_norm             \
-      --predictions_file $perc1_preds       \
+      --predictions_file $perc1_preds_norm  \
       --output_model_file $perc1_model
   fi
+
+#  mlpack_preprocess_scale -a min_max_scaler -e 2 -b -2 \
+#    --input_model_file $norm_model                     \
+#    --input_file $perc1_preds_norm                     \
+#    --output_file $perc1_preds                         \
+#    --inverse_scaling
 
 fi
 
