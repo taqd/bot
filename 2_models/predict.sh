@@ -1,5 +1,6 @@
 #!/bin/bash
 root=~/bot/2_models
+age=`cat $root/../data/state/age`
 datum_file=$1
 name=${datum_file##*/}
 
