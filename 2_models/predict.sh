@@ -52,7 +52,7 @@ then
   exit
 fi
 
-if [[ ! -f $perc1_model ]]
+if [[ ! -f $perc1_model || $(( age % 15 )) == 0 ]]
 then
   mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
     --input_file $train_all                           \

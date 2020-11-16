@@ -13,4 +13,5 @@ kraken:
 	clang++ -std=c++20 -O3 -lcurl ./src/kraken_tick.cpp   -o ./bin/kraken_tick
 	
 prepare:
+	mkdir -p ./bin
 	clang++ -std=c++20 -O3 -lcurl ./src/prepare_raw.cpp   -o ./bin/prepare_raw
