@@ -41,11 +41,12 @@ do
       --labels_file $labels_norm                        \
       --training_file $train_norm                       \
       --output_model_file $perc1_model 2> /dev/null
-          if [[ $? -gt 0 ]] 
-          then
-            echo "failed live train, re-normalizing"
-            rm $per1_model $labels_norm $train_norm $norm_model
-          fi
+
+    if [[ $? -gt 0 ]] 
+    then
+      echo "failed live train, re-normalizing"
+      rm $per1_model $labels_norm $train_norm $norm_model
+    fi
   fi
 done
 exit 0
