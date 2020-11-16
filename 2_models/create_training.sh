@@ -11,7 +11,7 @@ do
   datatype=${datum_name%_*}
   datatype=${datatype##*_}
 
-  name_file=$root/../data/training/${datum_name}_names.csv
+  name_file=$root/../static_data/modeling/${datum_name}_names.csv
   training_file=$root/../data/training/${datum_name}_data.csv
 
   let once=1
@@ -84,30 +84,3 @@ do
 
   ./predict.sh $window_file  
 done
-
-##find ../data/windows/ -type f -print0 | xargs -0 -n 100 -P 16 ./create_training.sh 
-#root=~/bot/2_models
-#
-#function create_training {
-#  echo -n > $root/../data/training/$1.csv
-#  for datum_file in $root/../data/archive/${1}_*
-#  do
-#    #echo -n -e "${file##*/} " >> $root/../data/training/$1 
-#    awk 'NF{NF-=10};1' 2> /dev/null $datum_file | sed 's/nan/0/g' >> $root/../data/training/$1.csv
-#  done
-#  #echo -n -e "target " >> $root/../data/training/$1
-#  cut -f11- $root/../data/targets/$1_target 2> /dev/null > $root/../data/training/$1_target.csv
-#}
-#
-#for window in "$@"
-#do
-#  create_training ${window##*/} 
-#done
-#
-#  echo "name file: $name_file"
-#  echo "training file: $training_file"
-#  echo "paircode: $paircode"
-#  echo "data_name: $datum_name"
-#  echo "datatype: $datatype"
-#  continue;
-
