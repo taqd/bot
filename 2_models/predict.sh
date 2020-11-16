@@ -53,46 +53,18 @@ then
   exit
 fi
 
-if [[ ! -f $perc1_model || $(( age % 15 )) == 0 ]]
+if [[ -f $perc1_model  ]]
 then
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_file $train_all                           \
-    --output_file $train_norm                         \
-    --output_model_file $norm_model
-
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
-    --input_file $labels_all                          \
-    --output_file $labels_norm 
-
-  mlpack_perceptron --max_iterations 100000           \
-    --training_file $train_norm                       \
-    --labels_file $labels_norm                        \
-    --output_model_file $perc1_model
-
-else
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
-    --input_file $train_one                           \
-    --output_file $train_norm                         
-
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
-    --input_file $labels_one                          \
-    --output_file $labels_norm 
 
   mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
     --input_model_file $norm_model                    \
     --input_file $test_one                            \
     --output_file $test_norm 
 
-  mlpack_perceptron --max_iterations 100000           \
+  mlpack_perceptron --max_iterations 1000000          \
     --input_model_file $perc1_model                   \
-    --labels_file $labels_norm                        \
-    --training_file $train_norm                       \
     --test_file $test_norm                            \
     --predictions_file $perc1_preds_norm              \
-    --output_model_file $perc1_model
 
   mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
     --input_model_file $norm_model                    \
