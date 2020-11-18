@@ -82,5 +82,5 @@ do
   done
   echo >> $training_file 
 
-  ./predict.sh $window_file  
+  ./predict.sh $window_file
 done

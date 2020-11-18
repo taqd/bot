@@ -18,7 +18,8 @@ train_norm=$root/../data/modeling/${name}_train_norm.csv
 labels_norm=$root/../data/modeling/${name}_labels_norm.csv
 test_norm=$root/../data/modeling/${name}_test_norm.csv
 
-norm_model=$root/../data/modeling/${name}_norm_model.json
+train_norm_model=$root/../data/modeling/${name}_trainnorm_model.json
+labels_norm_model=$root/../data/modeling/${name}_labelsnorm_model.json
 perc1_model=$root/../data/modeling/${name}_perc1_model.json
 
 perc1_preds=$root/../data/predictions/${name}_perc1.csv
@@ -48,54 +49,59 @@ then
   exit
 fi
 all_size=`cat $labels_all | wc -l`
-if [[ $all_size -lt 60 ]] 
+if [[ $all_size -lt 10 ]] 
 then
   exit
 fi
 
 if [[ ! -f $perc1_model || $(( age % 15 )) == 0 ]]
 then
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
+  mlpack_preprocess_scale -a min_max_scaler -b 0 -e 1 \
     --input_file $train_all                           \
     --output_file $train_norm                         \
-    --output_model_file $norm_model
+    --output_model_file $train_norm_model
 
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
+  mlpack_preprocess_scale -a min_max_scaler -b 0 -e 1 \
     --input_file $labels_all                          \
-    --output_file $labels_norm 
-
-  mlpack_perceptron --max_iterations 100000           \
+    --output_file $labels_norm                        \
+    --output_model_file $labels_norm_model
+ 
+  mlpack_perceptron --max_iterations 10000            \
     --training_file $train_norm                       \
     --labels_file $labels_norm                        \
-    --output_model_file $perc1_model
+    --output_model_file $perc1_model 
 
 else
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
+  if [[ ! -f $train_norm_model || ! -f $labels_norm_model ]]
+  then
+    rm $perc1_model
+    exit
+  fi
+  mlpack_preprocess_scale -a min_max_scaler -b 0 -e 1 \
+    --input_model_file $train_norm_model              \
     --input_file $train_one                           \
     --output_file $train_norm                         
 
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
+  mlpack_preprocess_scale -a min_max_scaler -b 0 -e 1 \
+    --input_model_file $labels_norm_model             \
     --input_file $labels_one                          \
     --output_file $labels_norm 
 
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
+  mlpack_preprocess_scale -a min_max_scaler -b 0 -e 1 \
+    --input_model_file $train_norm_model              \
     --input_file $test_one                            \
     --output_file $test_norm 
 
-  mlpack_perceptron --max_iterations 100000           \
+  mlpack_perceptron --max_iterations 10000            \
     --input_model_file $perc1_model                   \
     --labels_file $labels_norm                        \
     --training_file $train_norm                       \
     --test_file $test_norm                            \
     --predictions_file $perc1_preds_norm              \
-    --output_model_file $perc1_model
+    --output_model_file $perc1_model || rm $perc1_model 
 
-  mlpack_preprocess_scale -a min_max_scaler -e 1 -b 0 \
-    --input_model_file $norm_model                    \
+  mlpack_preprocess_scale                             \
+    --input_model_file $labels_norm_model             \
     --input_file $perc1_preds_norm                    \
     --output_file $perc1_preds                        \
     --inverse_scaling

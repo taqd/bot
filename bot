@@ -47,6 +47,31 @@ do
   analyze                                 
   model
 
+  age_file=./data/state/age
+  age=`cat ${age_file}` 
+  file=./data/predictions/XXBTZUSD_tick_askprice_3_perc1.csv_util
+  if [[ -f $file ]]
+  then
+    util=`cat $file`
+    util="$(printf "%0.0f" $util )"
+    echo -n -e " (3m:${util}) "
+  fi
+
+  file=./data/predictions/XXBTZUSD_tick_askprice_10_perc1.csv_util
+  if [[ -f $file ]]
+  then
+    util=`cat $file`
+    util="$(printf "%0.0f" $util)"
+    echo -n -e " (10m:${util}) "
+  fi
+
+  file=./data/predictions/XXBTZUSD_tick_askprice_60_perc1.csv_util
+  if [[ -f $file ]]
+  then
+    util=`cat $file`
+    util="$(printf "%0.0f" $util)"
+    echo -n -e " (60m:${util}) "
+  fi
   let LEFT=60-SECONDS
   echo -n -e " | ${SECONDS}s waiting: "
 
