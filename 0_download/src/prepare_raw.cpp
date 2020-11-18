@@ -19,11 +19,11 @@ void print_targets(vector<int> targets) {
 void print_predictions(vector<int> predictions) {
   cout << " ";
   for (int prediction : predictions) {
-    if (prediction ==  2) print_symbol("2");
-    if (prediction ==  1) print_symbol("1");
-    if (prediction ==  0) print_symbol("0");
-    if (prediction == -1) print_symbol("-1");
-    if (prediction == -2) print_symbol("-2");
+#    if (prediction >  2) print_symbol("2");
+    if (prediction >  0) print_symbol("1");
+    if (prediction == 0) print_symbol("0");
+    if (prediction <  0) print_symbol("-1");
+#    if (prediction < -2) print_symbol("-2");
   }
   cout << " ";
 }
