@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
 
   CURL* c = curl_easy_init();         if (!c) throw "bad curl init";
   for (string paircode : paircodes) {
-    string page_opt{"pair="+paircode+"&since="+since_read(paircode+"_trade")},
+    string page_opt{"pair="+paircode+"&since="+since_read(paircode+"_ohlc")},
            f{raw_dir + paircode + "_trade_"};
     try {
       if (!download_data(c, page, page_opt, ret)) throw "bad data download";
@@ -40,13 +40,13 @@ int main(int argc, char *argv[]) {
         }
       }
       bm_price  = (bm_scale == 0) ? 0 : bm_price  / bm_scale;
-      bm_volume = (bm_scale == 0) ? 0 : bm_volume / bm_scale;
+      // bm_volume = (bm_scale == 0) ? 0 : bm_volume / bm_scale;
       bl_price  = (bl_scale == 0) ? 0 : bl_price  / bl_scale;
-      bl_volume = (bl_scale == 0) ? 0 : bl_volume / bl_scale;
+      // bl_volume = (bl_scale == 0) ? 0 : bl_volume / bl_scale;
       sm_price  = (sm_scale == 0) ? 0 : sm_price  / sm_scale;
-      sm_volume = (sm_scale == 0) ? 0 : sm_volume / sm_scale;
+      // sm_volume = (sm_scale == 0) ? 0 : sm_volume / sm_scale;
       sl_price  = (sl_scale == 0) ? 0 : sl_price  / sl_scale;
-      sl_volume = (sl_scale == 0) ? 0 : sl_volume / sl_scale;
+      // sl_volume = (sl_scale == 0) ? 0 : sl_volume / sl_scale;
       check_and_save(f + "bmprice",  bm_price);
       check_and_save(f + "bmvolume", bm_volume);
       check_and_save(f + "bmcount",  bm_scale);
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
       check_and_save(f + "slprice",  sl_price);
       check_and_save(f + "slvolume", sl_volume);
       check_and_save(f + "slcount",  sl_scale);
-      since_write(paircode + "_trade", j["result"]["last"].get<string>()); 
+      //since_write(paircode + "_trade", j["result"]["last"].get<string>()); 
 
       if (DB>0) 
         cout << fixed << setprecision(2) << paircode << "   \t"

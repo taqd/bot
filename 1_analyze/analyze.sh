@@ -1,28 +1,50 @@
 #!/bin/bash
 
-
 root=~/bot/1_analyze
 data=$root/../data
 age=`cat $data/state/age`
 
 function base_analysis {
-  find ../data/windows -type f -print0 | xargs -0 -n 100 -P 32 python3 src/base_analysis.py
-  echo -n -e "\033[;36m\u2713\033[0m"
+  find ../data/windows -type f -print0 | \
+    xargs -0 -n 100 -P 8 python3 src/base_analysis.py
+  echo -n "*"
 }
 
 function forecast {
-  find ../data/windows/*_askprice_* -type f -print0 | xargs -0 -n 10 -P 32 python3 src/forecast.py 
-  echo -n -e "\033[;37m\u2713\033[0m "
+  find ../data/windows/*_tick_askprice_* -type f -print0 | \
+    xargs -0 -n 3 -P 64 python3 src/forecast.py 
+  echo -n "*"
 }
 
+function write_out {
+  find ../data/raw/ -type f -printf "%f\0" | \
+    xargs -0 -n 50 -P 8 ./output.sh
+  echo -n "*"
+}
+
+function create_streams {
+  ./create_stream1.sh
+  echo -n "*"
+}
+
+
+echo -n " | analyze: "
 if [[ ${age} -gt 2 ]]
 then
   base_analysis & 
   forecast &
-  wait
 else
-  echo -n -e "\033[;36mX\033[0m"
+  echo -n "X"
 fi
 
-#  echo -n " analyzed: `find ../data/windows -mmin -1 | wc -l`"
-#  echo -n " forecasted: `find ../data/windows/*tick_askprice_* -mmin -1 | wc -l`"
+wait
+
+echo
+echo -n " | output: "
+if [[ ${age} -gt 2 ]]
+then
+  write_out
+  create_streams
+else
+  echo -n "X"
+fi

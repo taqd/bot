@@ -31,9 +31,9 @@ int main(int argc, char *argv[]) {
       ohlc_high = (scale==0) ? 0 : ohlc_high / scale;
       ohlc_low  = (scale==0) ? 0 : ohlc_low  / scale;
       ohlc_close= (scale==0) ? 0 : ohlc_close/ scale;
-      ohlc_vmap = (scale==0) ? 0 : ohlc_vmap / scale;
-      ohlc_vol  = (scale==0) ? 0 : ohlc_vol  / scale;
-      ohlc_count= (scale==0) ? 0 : ohlc_count/ scale;
+      //ohlc_vmap = (scale==0) ? 0 : ohlc_vmap / scale;
+      //ohlc_vol  = (scale==0) ? 0 : ohlc_vol  / scale;
+      //ohlc_count= (scale==0) ? 0 : ohlc_count/ scale;
       check_and_save(f + "openprice",  ohlc_open);
       check_and_save(f + "highprice",  ohlc_high);
       check_and_save(f + "lowprice",   ohlc_low);

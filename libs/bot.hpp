@@ -24,7 +24,7 @@ using json = nlohmann::json;
 int DB = 0;
 /**************************GLOBALS*********************************************/
 
-vector<string> windows{"3","10", "60"};
+vector<string> windows{"10", "60", "360", "1440", "10080", "40320"};
 
 string root_dir         = "../",
        data_dir         = root_dir + "data/",
@@ -45,6 +45,9 @@ string root_dir         = "../",
 
 /**************************ERROR HANDLING**************************************/
 void print_symbol(char c) {
+  if (c=='E') cout << "X" << flush; // cout << "\033[;41m\u2716\033[0m";
+  else cout << "*" << flush;
+  return;
   if (c=='T') cout << "\033[;31m\u2713\033[0m"; // red
   if (c=='O') cout << "\033[;32m\u2713\033[0m"; // green
   if (c=='D') cout << "\033[;33m\u2713\033[0m"; // orange
@@ -52,7 +55,6 @@ void print_symbol(char c) {
   if (c=='X') cout << "\033[;35m\u2713\033[0m"; // pink
   if (c=='U') cout << "\033[;36m\u2713\033[0m";
   if (c=='M') cout << "\033[;37m\u2713\033[0m"; // white
-  if (c=='E') cout << "\033[;41m\u2716\033[0m";
 
   if (c=='0') cout << "\033[;35m-\033[0m";
   if (c=='1') cout << "\033[;32m\u2191\033[0m";

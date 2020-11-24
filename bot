@@ -2,11 +2,11 @@
 
 function init {                                                           # dirs used by:
   mkdir -p ./data/raw      ./data/state                                   # download.sh
-  mkdir -p ./data/windows  ./data/targets                                 # read_raws.sh
+  mkdir -p ./data/windows  ./data/targets                                 # 
   mkdir -p ./data/analysis ./data/forecast                                # analyze.sh
-  mkdir -p ./data/training ./data/modeling ./data/predictions             # models
-  mkdir -p ./static_data/modeling
+  mkdir -p ./data/output   ./data/stream
 
+  date +"%Y.%j.%H.%M.%S"
   echo -n "age: "
   age_file=./data/state/age
   if [[ ! -f "${age_file}" ]]; then
@@ -22,66 +22,35 @@ function init {                                                           # dirs
 
 function download {
   cd 0_download
-  ./download.sh                                                           # internet -> raw
-  ./read_raws.sh                                                          # raw      -> windows
-  cd ..                                                                   #          -> targets
+  ./download.sh 
+  cd ..      
 }
 
 function analyze {
   cd 1_analyze
-  ./analyze.sh                                                            # windows  -> analysis
-  cd ..                                                                   # all      -> archive
+  ./analyze.sh 
+  cd ..       
 }
 
-function model {
-  cd 2_models
-  ./model.sh
-  cd ..
-}
 
 while true
 do
-  SECONDS=0   
+  
   init
+  echo
   download
+  SECONDS=0   
+  echo 
   analyze                                 
-  model
+  echo
+ 
+  echo -n " | runtime: ${SECONDS}sec"
 
-  age_file=./data/state/age
-  age=`cat ${age_file}` 
-  file=./data/predictions/XXBTZUSD_tick_askprice_3_perc1.csv_util
-  if [[ -f $file ]]
-  then
-    util=`cat $file`
-    util="$(printf "%0.0f" $util )"
-    echo -n -e " (3m:${util}) "
-  fi
-
-  file=./data/predictions/XXBTZUSD_tick_askprice_10_perc1.csv_util
-  if [[ -f $file ]]
-  then
-    util=`cat $file`
-    util="$(printf "%0.0f" $util)"
-    echo -n -e " (10m:${util}) "
-  fi
-
-  file=./data/predictions/XXBTZUSD_tick_askprice_60_perc1.csv_util
-  if [[ -f $file ]]
-  then
-    util=`cat $file`
-    util="$(printf "%0.0f" $util)"
-    echo -n -e " (60m:${util}) "
-  fi
   let LEFT=60-SECONDS
-  echo -n -e " | ${SECONDS}s waiting: "
-
-  while [ $LEFT -gt 0 ]
-  do
-    let LEFT=LEFT-1
-    echo -n $LEFT
-    sleep 1
-    echo -n -e '\b\b  \b\b'
-  done
-
-  echo -e " \033[;35m\u2713\033[0m "  
+  if [[ $LEFT -gt 0 ]]
+  then
+    sleep $LEFT
+  fi
+  echo " *"
 done
+
