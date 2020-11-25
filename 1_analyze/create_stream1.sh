@@ -85,7 +85,9 @@ convert $btccad_slv   $btcusd_slv   $btceur_slv   $btceth_slv   +append stream1_
 convert $btccad_smv   $btcusd_smv   $btceur_smv   $btceth_smv   +append stream1_l8.png
 convert stream1_l0.png stream1_l1.png stream1_l2.png stream1_l3.png stream1_l4.png \
   stream1_l5.png stream1_l6.png stream1_l7.png stream1_l8.png \
-  -append $data/stream/stream1.png
+  -append $data/stream/stream1_tmp.png
+  #-append -crop 1920x1080+0+0 $data/stream/stream1_tmp.png
+cp $data/stream/stream1_tmp.png $data/stream/stream1.png
 
 
 exit
