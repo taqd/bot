@@ -45,6 +45,7 @@ function client {
   init
   echo " | client"
   download
+  ./scripts/upload_to_server.sh
   echo " | runtime: ${SECONDS}sec"
 }
 
