@@ -1,7 +1,7 @@
 
 root=~/bot
 
-all: download analyze model output
+all: download analyze model 
 
 download: 
 	cd ${root}/0_download/ && make
@@ -25,4 +25,4 @@ clean:
 	rm -f ${root}/3_output/bin/*
 	rm -rf ${root}/data/*
 
-go: clean download analyze output run
+go: clean download analyze run
