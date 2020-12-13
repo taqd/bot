@@ -12,29 +12,28 @@ echo -n " | output: "
 cd $data/state/
 mv .output.txt output.txt
 
-convert \
-  -gravity east \
-  -background black  \
-  -font FreeMono \
-  -pointsize 25 \
-  -fill green \
-  pango:@output.txt \
-  .output_4k_black.bmp 
-
 #convert \
-#  -size 3840x2160 \
-#  xc:black \
-#  \( -gravity center \
-#  -background black \
-#  -size 3584x1763 \
+#  -gravity east \
+#  -background black  \
 #  -font FreeMono \
-#  -pointsize 20 \
-#  -fill green  \
-#  pango:@output.txt \) \
-#  -gravity center \
-#  -composite \
+#  -pointsize 25 \
+#  -fill green \
+#  pango:@output.txt \
 #  .output_4k_black.bmp 
 
+convert \
+  -size 3840x2160 \
+  xc:black \
+  \( -gravity center \
+  -background black \
+  -size 3584x1763 \
+  -font FreeMono \
+  -pointsize 20 \
+  -fill green  \
+  pango:@output.txt \) \
+  -gravity center \
+  -composite \
+  .output_4k_black.bmp 
 mv .output_4k_black.bmp output_4k_black.bmp
 
 #convert \
