@@ -24,7 +24,7 @@ using json = nlohmann::json;
 int DB = 0;
 /**************************GLOBALS*********************************************/
 
-vector<string> windows{"3", "10", "60"};
+vector<string> windows{"3", "10", "60", "1440"};
 
 string root_dir         = "../",
        data_dir         = root_dir + "data/",

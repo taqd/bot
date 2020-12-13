@@ -2,20 +2,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 root=~/bot/3_output
 data=${root}/../data
 
@@ -49,75 +35,76 @@ convert \
 #  -composite \
 #  .output_4k_black.bmp 
 
-convert \
-  -size 1920x1080 \
-  xc:black \
-  \( -gravity center \
-  -background black \
-  -size 1792x944 \
-  -font FreeMono \
-  -pointsize 10.5 \
-  -fill green  \
-  pango:@output.txt \) \
-  -gravity center \
-  -composite \
-  .output_1080p_black.bmp 
-
-convert \
-  -size 3200x1440 \
-  -gravity center \
-  -background black  \
-  -font FreeMono \
-  -pointsize 16 \
-  -fill green \
-  pango:@output.txt \
-  .output_20x9_black.bmp 
-
-convert \
-  -size 3840x2160 \
-  xc:white \
-  \( -gravity center \
-  -background white \
-  -size 3584x1763 \
-  -font FreeMono \
-  -pointsize 20 \
-  -fill black  \
-  pango:@output.txt \) \
-  -gravity center \
-  -composite \
-  .output_4k_white.bmp 
-
-convert \
-  -size 1920x1080 \
-  xc:white \
-  \( -gravity center \
-  -background white \
-  -size 1792x944 \
-  -font FreeMono \
-  -pointsize 10.5 \
-  -fill black  \
-  pango:@output.txt \) \
-  -gravity center \
-  -composite \
-  .output_1080p_white.bmp 
-
-convert \
-  -size 3200x1440 \
-  -gravity center \
-  -background white  \
-  -font FreeMono \
-  -pointsize 16 \
-  -fill black \
-  pango:@output.txt \
-  .output_20x9_white.bmp 
-
 mv .output_4k_black.bmp output_4k_black.bmp
-mv .output_1080p_black.bmp output_1080p_black.bmp
-mv .output_20x9_black.bmp output_20x9_black.bmp
-mv .output_4k_white.bmp output_4k_white.bmp
-mv .output_1080p_white.bmp output_1080p_white.bmp
-mv .output_20x9_white.bmp output_20x9_white.bmp
 
+#convert \
+#  -size 1920x1080 \
+#  xc:black \
+#  \( -gravity center \
+#  -background black \
+#  -size 1792x944 \
+#  -font FreeMono \
+#  -pointsize 10.5 \
+#  -fill green  \
+#  pango:@output.txt \) \
+#  -gravity center \
+#  -composite \
+#  .output_1080p_black.bmp 
+#
+#convert \
+#  -size 3200x1440 \
+#  -gravity center \
+#  -background black  \
+#  -font FreeMono \
+#  -pointsize 16 \
+#  -fill green \
+#  pango:@output.txt \
+#  .output_20x9_black.bmp 
+#
+#convert \
+#  -size 3840x2160 \
+#  xc:white \
+#  \( -gravity center \
+#  -background white \
+#  -size 3584x1763 \
+#  -font FreeMono \
+#  -pointsize 20 \
+#  -fill black  \
+#  pango:@output.txt \) \
+#  -gravity center \
+#  -composite \
+#  .output_4k_white.bmp 
+#
+#convert \
+#  -size 1920x1080 \
+#  xc:white \
+#  \( -gravity center \
+#  -background white \
+#  -size 1792x944 \
+#  -font FreeMono \
+#  -pointsize 10.5 \
+#  -fill black  \
+#  pango:@output.txt \) \
+#  -gravity center \
+#  -composite \
+#  .output_1080p_white.bmp 
+#
+#convert \
+#  -size 3200x1440 \
+#  -gravity center \
+#  -background white  \
+#  -font FreeMono \
+#  -pointsize 16 \
+#  -fill black \
+#  pango:@output.txt \
+#  .output_20x9_white.bmp 
+#
+#mv .output_1080p_black.bmp output_1080p_black.bmp
+#mv .output_20x9_black.bmp output_20x9_black.bmp
+#mv .output_4k_white.bmp output_4k_white.bmp
+#mv .output_1080p_white.bmp output_1080p_white.bmp
+#mv .output_20x9_white.bmp output_20x9_white.bmp
+#
 echo "*"
 
 #convert \

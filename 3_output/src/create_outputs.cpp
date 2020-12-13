@@ -24,7 +24,7 @@ class Datum {
   string paircode, nice_name;
   int window, target, prediction;
   float bm, bl, sm, sl, av, bv, ask, bid, vol;
-  int w03, w10, w60;
+  int w03, w10, w60, w1440;
   int trd;
   float ohlc_vol;
   string a03, a10, a60;
@@ -50,31 +50,32 @@ bool Datum::load(string paircode) {
   av  = stof(get_first(raw_dir + paircode + "_depthaskvolum_sum"));
   bv  = stof(get_first(raw_dir + paircode + "_depthbidvolum_sum"));
 
-  w03 = stof(get_first(targets_dir + paircode + "_tick_askprice_3"));
-  w10 = stof(get_first(targets_dir + paircode + "_tick_askprice_10"));
-  w60 = stof(get_first(targets_dir + paircode + "_tick_askprice_60"));
+//  w03 = stof(get_first(targets_dir + paircode + "_tick_askprice_3"));
+//  w10 = stof(get_first(targets_dir + paircode + "_tick_askprice_10"));
+//  w60 = stof(get_first(targets_dir + paircode + "_tick_askprice_60"));
+//  w1440 = stof(get_first(targets_dir + paircode + "_tick_askprice_1440"));
 
-  int a03_t = stoi(get_first(forecast_dir + paircode +  "_tick_askprice_3.csv_arima201")); 
-  int a10_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_10.csv_arima201"));
-  int a60_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_60.csv_arima201"));
-  if (a03_t > 3) a03 = up;  if (a03_t == 3) a03 = stay;  if (a03_t < 3) a03 = down;
-  if (a10_t > 3) a10 = up;  if (a10_t == 3) a10 = stay;  if (a10_t < 3) a10 = down;
-  if (a60_t > 3) a60 = up;  if (a60_t == 3) a60 = stay;  if (a60_t < 3) a60 = down;
-  a03acc = get_first(utility_dir + paircode + "_tick_askprice_3.csv_arima201");
-  a10acc = get_first(utility_dir + paircode + "_tick_askprice_10.csv_arima201");
-  a60acc = get_first(utility_dir + paircode + "_tick_askprice_60.csv_arima201");
-  aacc = max({a03acc, a10acc, a60acc});
+  //int a03_t = stoi(get_first(forecast_dir + paircode +  "_tick_askprice_3.csv_arima201")); 
+  //int a10_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_10.csv_arima201"));
+  //int a60_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_60.csv_arima201"));
+  //if (a03_t > 3) a03 = up;  if (a03_t == 3) a03 = stay;  if (a03_t < 3) a03 = down;
+  //if (a10_t > 3) a10 = up;  if (a10_t == 3) a10 = stay;  if (a10_t < 3) a10 = down;
+  //if (a60_t > 3) a60 = up;  if (a60_t == 3) a60 = stay;  if (a60_t < 3) a60 = down;
+  //a03acc = get_first(utility_dir + paircode + "_tick_askprice_3.csv_arima201");
+  //a10acc = get_first(utility_dir + paircode + "_tick_askprice_10.csv_arima201");
+  //a60acc = get_first(utility_dir + paircode + "_tick_askprice_60.csv_arima201");
+  //aacc = max({a03acc, a10acc, a60acc});
 
-  int d03_t = stoi(get_first(forecast_dir + paircode +  "_tick_askprice_3.csv_dynamicfmq21"));
-  int d10_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_10.csv_dynamicfmq21"));
-  int d60_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_60.csv_dynamicfmq21"));
-  if (d03_t > 3) d03 = up;  if (d03_t == 3) d03 = stay;  if (d03_t < 3) d03 = down;
-  if (d10_t > 3) d10 = up;  if (d10_t == 3) d10 = stay;  if (d10_t < 3) d10 = down;
-  if (d60_t > 3) d60 = up;  if (d60_t == 3) d60 = stay;  if (d60_t < 3) d60 = down;
-  d03acc = get_first(utility_dir + paircode + "_tick_askprice_3.csv_dynamicfmq21");
-  d10acc = get_first(utility_dir + paircode + "_tick_askprice_10.csv_dynamicfmq21");
-  d60acc = get_first(utility_dir + paircode + "_tick_askprice_60.csv_dynamicfmq21");
-  dacc = max({d03acc, d10acc, d60acc});
+  //int d03_t = stoi(get_first(forecast_dir + paircode +  "_tick_askprice_3.csv_dynamicfmq21"));
+  //int d10_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_10.csv_dynamicfmq21"));
+  //int d60_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_60.csv_dynamicfmq21"));
+  //if (d03_t > 3) d03 = up;  if (d03_t == 3) d03 = stay;  if (d03_t < 3) d03 = down;
+  //if (d10_t > 3) d10 = up;  if (d10_t == 3) d10 = stay;  if (d10_t < 3) d10 = down;
+  //if (d60_t > 3) d60 = up;  if (d60_t == 3) d60 = stay;  if (d60_t < 3) d60 = down;
+  //d03acc = get_first(utility_dir + paircode + "_tick_askprice_3.csv_dynamicfmq21");
+  //d10acc = get_first(utility_dir + paircode + "_tick_askprice_10.csv_dynamicfmq21");
+  //d60acc = get_first(utility_dir + paircode + "_tick_askprice_60.csv_dynamicfmq21");
+  //dacc = max({d03acc, d10acc, d60acc});
   return true; 
 }
 
@@ -258,30 +259,30 @@ int main(int argc, char* argv[]) {
     for (int i = 1 ; i <= 3; ++i) {
       print_pair(d,i);
       print_tick(d,i);
-      print_delta(d,i);
+ //     print_delta(d,i);
       print_avgvolume(d,i);
       print_numtrades(d,i);
       print_ohlcvolume(d,i);
       print_market(d,i);
       print_limit(d,i);
       print_depth(d,i);
-      print_babbage(d,i);
-      print_lovelace(d,i);
+     // print_babbage(d,i);
+    //  print_lovelace(d,i);
       cout << "|\n";
     }
     cout << "</span>";
   }
   print_pair(d);
   print_tick(d);
-  print_delta(d);
+//  print_delta(d);
   print_avgvolume(d);
   print_numtrades(d);
   print_ohlcvolume(d);
   print_market(d);
   print_limit(d);
   print_depth(d);
-  print_babbage(d);
-  print_lovelace(d);
+//  print_babbage(d);
+//  print_lovelace(d);
 
     cout << "<span foreground='grey'>";
     cout << "|\n";

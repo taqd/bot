@@ -6,7 +6,7 @@ data=${root}/../data
 hostname=`cat /etc/hostname`
 echo -n " | sync "
 cd $data
-tar -cf raw.tar ./raw 
+tar -cf raw.tar ./raw ./targets 
 echo -n "*"
 scp -q -i /home/tyler/.ssh/google_compute_engine raw.tar \
   tyler@34.82.123.49:/home/tyler/bot/data/raw_${hostname}.tar
