@@ -1,6 +1,6 @@
 #!/bin/bash
 
-root=~/bot/2_stream
+root=~/bot/3_output
 data=$root/../data
 
 #BITRATE="2500k" # Bitrate of the output video

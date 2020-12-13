@@ -5,7 +5,8 @@ sudo apt install vim git tmux \
   imagemagick \
   cmake libarmadillo-dev libensmallen-dev libcereal-dev \
   libboost-all-dev \
-  libcurl4-openssl-dev
+  libcurl4-openssl-dev \
+  ffmpeg
 
 sudo ln -s /usr/bin/clang++-11 /usr/bin/clang++ 
 
