@@ -24,11 +24,12 @@ using json = nlohmann::json;
 int DB = 0;
 /**************************GLOBALS*********************************************/
 
-vector<string> windows{"10", "60", "360", "1440", "10080", "40320"};
+vector<string> windows{"3", "10", "60"};
 
 string root_dir         = "../",
        data_dir         = root_dir + "data/",
        raw_dir          = data_dir + "raw/",
+       vector_dir         = data_dir + "vectors/",
        windows_dir      = data_dir + "windows/",
        analysis_dir     = data_dir + "analysis/",
        forecast_dir     = data_dir + "forecast/",
@@ -36,6 +37,7 @@ string root_dir         = "../",
        state_dir        = data_dir + "state/",
        predictions_dir  = data_dir + "predictions/",
        targets_dir      = data_dir + "targets/",
+       utility_dir      = data_dir + "utility/",
        target_name      = "XXBTZUSD_tick_askprice",
        ask_filename     = raw_dir + target_name,
        usd_filename     = state_dir + "avail_usd",
@@ -124,6 +126,16 @@ void write_trunc(string file, vector<string>& values) {
   ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
   for (string value : values)  out << value << endl;
 }
+void write_trunc(string file, vector<int>& values) {
+  ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
+  for (int value : values)  out << value << endl;
+}
+void write_trunc(string file, vector<float>& values) {
+  ofstream out{file, ios_base::trunc}; if (!out) throw "bad trunc with" + file;
+  for (float value : values)  out << value << endl;
+}
+
+
 
 /**************************STRING MANIPULATION*********************************/
 vector<string> tokenize(string &s) {
@@ -162,9 +174,16 @@ void check_and_save(string f, float value){
   if (low > value || hi < value) 
     throw "out-of-range:"+to_string(low)+"<"+to_string(value)+"<"+to_string(hi);
   ostringstream value_str;
-  value_str << fixed << setprecision(2) << value;
+  value_str << value;
+//value_str << fixed << setprecision(2) << value;
   string ret = value_str.str();
   write_trunc(f,ret);
 }
 void check_and_save(string f, string v){ check_and_save(f, stof(v)); }
-void check_and_save(string f, int v){ check_and_save(f, static_cast<float>(v)); }
+void check_and_save(string f, int v){ check_and_save(f, static_cast<float>(v));}
+void check_and_save(string f, vector<string> v) { write_trunc(f,v);}
+void check_and_save(string f, vector<int> v) { write_trunc(f,v);}
+void check_and_save(string f, vector<float> v) { write_trunc(f,v);}
+
+
+

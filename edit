@@ -1,7 +1,7 @@
 #!/bin/bash
 
-vim -O2 bot Makefile libs/bot.hpp                       \
-  0_download/Makefile 0_download/*.sh 0_download/src/*  \
-                      1_analyze/*.sh  1_analyze/src/*   
-  
-#  2_models/Makefile   2_models/*.sh  2_models/src/* 
+vim -O2 bot Makefile libs/bot.hpp                      \
+  0_download/Makefile 0_download/*.sh 0_download/src/* \
+                      1_analyze/*.sh  1_analyze/src/*  \
+  2_models/Makefile   2_models/*.sh  2_models/src/*    \
+  3_output/Makefile   3_output/*.sh  3_output/src/*

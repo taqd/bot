@@ -1,10 +1,12 @@
 #!/bin/bash
 
 function init {                                                           # dirs used by:
-  mkdir -p ./data/raw      ./data/state                                   # download.sh
+  mkdir -p ./data/raw      ./data/state     ./data/vectors                # download.sh
   mkdir -p ./data/windows  ./data/targets                                 # 
   mkdir -p ./data/analysis ./data/forecast                                # analyze.sh
-  mkdir -p ./data/output   ./data/stream
+#  mkdir -p ./data/training ./data/modeling
+#  mkdir -p ./data/labels   ./data/predictions
+#  mkdir -p ./data/utility
 
   date +"%Y.%j.%H.%M.%S"
   echo -n "age: "
@@ -18,39 +20,52 @@ function init {                                                           # dirs
     echo -n ${tmp} > ${age_file}
     echo -n ${tmp}
   fi
+  echo
 }
 
 function download {
   cd 0_download
   ./download.sh 
-  cd ..      
+  cd ..
 }
 
-function analyze {
-  cd 1_analyze
-  ./analyze.sh 
-  cd ..       
+function download_all {
+  cd 0_download
+  ./download_all.sh 
+  cd ..
 }
 
+function sync {
+  ./scripts/extract_raws.sh
+}
 
-while true
-do
-  
-  init
-  echo
-  download
-  SECONDS=0   
+function client {
   echo 
-  analyze                                 
-  echo
- 
-  echo -n " | runtime: ${SECONDS}sec"
+  SECONDS=0    
+  init
+  echo " | client"
+  download
+  echo " | runtime: ${SECONDS}sec"
+}
 
-  let LEFT=60-SECONDS
-  if [[ $LEFT -gt 0 ]]
-  then
-    sleep $LEFT
-  fi
-  echo " *"
-done
+function server {
+  while true
+  do
+    echo 
+    SECONDS=0   
+    init
+    download_all
+    sync
+    
+    echo -n " | runtime: ${SECONDS}sec"
+    let LEFT=60-SECONDS
+    if [[ $LEFT -gt 0 ]]
+    then
+      sleep $LEFT
+    fi
+    echo " *"
+  done
+}
 
+client
+#server

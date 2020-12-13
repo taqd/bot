@@ -1,8 +1,7 @@
 all: prepare kraken 
 
 run:
-	./download.sh
-	./read_raws.sh
+	./bin/judge_preds 
 
 kraken:
 	mkdir -p ./bin
@@ -15,3 +14,7 @@ kraken:
 prepare:
 	mkdir -p ./bin
 	clang++ -std=c++20 -O3 -lcurl ./src/prepare_raw.cpp   -o ./bin/prepare_raw
+
+judge:
+	mkdir -p ./bin
+	clang++ -std=c++20 -O3 -lcurl ./src/judge_preds.cpp   -o ./bin/judge_preds

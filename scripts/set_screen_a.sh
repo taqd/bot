@@ -19,7 +19,7 @@ send-keys -t 5 "~/bot/scripts/wttr.sh" Enter
 send-keys -t 6 "tload -d 10 -s 1" Enter
 send-keys -t 7 "bmon" Enter
 
-resize-pane -t 0 -x 100 -y 10
+resize-pane -t 0 -x 70 -y 10
 #resize-pane -t 1 -x 100 -y 20
 resize-pane -t 2 -x 100 -y 50
 resize-pane -t 3 -x 141 -y 63
