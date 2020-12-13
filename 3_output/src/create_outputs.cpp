@@ -50,10 +50,10 @@ bool Datum::load(string paircode) {
   av  = stof(get_first(raw_dir + paircode + "_depthaskvolum_sum"));
   bv  = stof(get_first(raw_dir + paircode + "_depthbidvolum_sum"));
 
-//  w03 = stof(get_first(targets_dir + paircode + "_tick_askprice_3"));
-//  w10 = stof(get_first(targets_dir + paircode + "_tick_askprice_10"));
-//  w60 = stof(get_first(targets_dir + paircode + "_tick_askprice_60"));
-//  w1440 = stof(get_first(targets_dir + paircode + "_tick_askprice_1440"));
+  w03 = stof(get_first(targets_dir + paircode + "_tick_askprice_3"));
+  w10 = stof(get_first(targets_dir + paircode + "_tick_askprice_10"));
+  w60 = stof(get_first(targets_dir + paircode + "_tick_askprice_60"));
+  w1440 = stof(get_first(targets_dir + paircode + "_tick_askprice_1440"));
 
   //int a03_t = stoi(get_first(forecast_dir + paircode +  "_tick_askprice_3.csv_arima201")); 
   //int a10_t = stoi(get_first(forecast_dir + paircode + "_tick_askprice_10.csv_arima201"));
@@ -259,7 +259,7 @@ int main(int argc, char* argv[]) {
     for (int i = 1 ; i <= 3; ++i) {
       print_pair(d,i);
       print_tick(d,i);
- //     print_delta(d,i);
+      print_delta(d,i);
       print_avgvolume(d,i);
       print_numtrades(d,i);
       print_ohlcvolume(d,i);
@@ -274,7 +274,7 @@ int main(int argc, char* argv[]) {
   }
   print_pair(d);
   print_tick(d);
-//  print_delta(d);
+  print_delta(d);
   print_avgvolume(d);
   print_numtrades(d);
   print_ohlcvolume(d);
