@@ -86,7 +86,7 @@ function dev {
     output
 }
 
-dev
+#dev
 
-#client
+client
 #server
