@@ -44,11 +44,11 @@ function parse {
   echo -n "*"
 
   find $data/vectors -type f -not -empty -print0 \
-    | xargs -0 -n 1 -P 32 $root/../bin/mlpack_preprocess_describe2 -i
+    | xargs -0 -n 1 -P 1 $root/../bin/mlpack_preprocess_describe2 -i
   echo -n "*"
   
   find $data/raw -type f -printf "%f\n" \
-    | xargs -n 1 -P 32 $root/bin/prepare_raw 
+    | xargs -n 1 -P 1 $root/bin/prepare_raw 
   echo -n "*"
   echo " $SECONDS "
 }
