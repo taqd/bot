@@ -7,22 +7,19 @@ header="on"
 
 paircodes=$root/../settings/paircodes
 function space {
-echo
-#echo -n "<span foreground='gray'>"
-#echo -n "|           |            |            |       |        |      |" 
-#echo -n "        |           |           |           |           |           |" 
-#echo  "           |      |      |      |      |      |      |" 
-
-
-#echo -n "</span>"
+echo -n "<span foreground='gray'>"
+echo -n "|           |            |            |       |        |      |" 
+echo -n "        |           |           |           |           |           |" 
+echo  "      |       |      |           |      |       |      |" 
+echo -n "</span>"
 }
 
 function header {
   echo -n "<span foreground='gray'>taqd</span><span foreground='#FF00FF'>.</span><span foreground='gray'>ca/kraken</span>"
   echo -n "<span foreground='gray'>"
   echo -n "----------------------------------------------------------" 
-  echo -n "---------------------------------------------------------" 
-  echo -n "---------------------------------------------------------" 
+  echo -n "----------------------------------------------------------" 
+  echo -n "----------------------------------------------------------" 
   echo -n "</span>"
   echo
 }
@@ -31,8 +28,8 @@ function footer {
 
 echo -n "<span foreground='gray'>"
 echo -n "---------------------------------------------------------" 
-echo -n "--------------------------------------------------------" 
-echo -n "--------------------------------------------------------" 
+echo -n "---------------------------------------------------------" 
+echo -n "---------------------------------------------------------" 
 echo -n "</span>"
 
 time=`date +"%Y.%j.%H.%M.%S"`

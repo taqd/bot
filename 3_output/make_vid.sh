@@ -3,6 +3,75 @@
 root=~/bot/3_output
 data=$root/../data
 
+YOUTUBE_URL="rtmp://a.rtmp.youtube.com/live2"
+
+SIZE="3840x2160"
+YOUTUBE_KEY="wu7r-b0wv-c4r9-u86k-e47s"
+VIDEO_SOURCE="${data}/state/output_4k_black.bmp" 
+ 
+ffmpeg \
+ -stream_loop -1 \
+ -f image2 \
+ -s $SIZE \
+ -i "$VIDEO_SOURCE" \
+ -re \
+ -f lavfi \
+ -i anullsrc \
+ -c:v libx264 \
+ -g 25 \
+ -x264opts no-scenecut \
+ -preset medium \
+ -tune stillimage \
+ -crf 0 \
+ -pix_fmt yuv420p \
+ -r 25 \
+ -f flv \
+ $YOUTUBE_URL/$YOUTUBE_KEY
+
+
+SIZE="1920x1080"
+YOUTUBE_KEY="wu7r-b0wv-c4r9-u86k-e47s"
+VIDEO_SOURCE="${data}/state/output_4k_black.bmp"
+ 
+ffmpeg \
+ -stream_loop -1 \
+ -f image2 \
+ -s $SIZE \
+ -i "$VIDEO_SOURCE" \
+ -re \
+ -f lavfi \
+ -i anullsrc \
+ -c:v libx264 \
+ -g 25 \
+ -x264opts no-scenecut \
+ -preset medium \
+ -tune stillimage \
+ -crf 0 \
+ -pix_fmt yuv420p \
+ -r 25 \
+ -f flv \
+ $YOUTUBE_URL/$YOUTUBE_KEY
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #BITRATE="2500k" # Bitrate of the output video
 #FPS="30" # FPS video output
 #QUAL="high" # FFMPEG quality preset
@@ -41,32 +110,6 @@ data=$root/../data
 #ffmpeg -re -loop 1 -i ${data}/state/stream.png -r 1 -s 3840x2160 \
 #  -vcodec libx264 -crf 0 -pix_fmt yuv420p -f flv ${data}/state/stream.mp4
 
-SIZE="3840x2160"
-#SIZE="1920x1080"
-VBR="3200k"
-FPS="30"
-QUAL="fast"
-YOUTUBE_URL="rtmp://a.rtmp.youtube.com/live2"
-YOUTUBE_KEY="wu7r-b0wv-c4r9-u86k-e47s" # Stream name/key
-VIDEO_SOURCE="${data}/state/output_4k_black.bmp" #Picture
- 
-ffmpeg \
- -stream_loop -1 \
- -f image2 \
- -s $SIZE \
- -i "$VIDEO_SOURCE" \
- -re \
- -f lavfi \
- -i anullsrc \
- -c:v libx264 \
- -g 60 \
- -x264opts no-scenecut \
- -preset ultrafast \
- -crf 100 \
- -pix_fmt yuv420p \
- -r 20 \
- -f flv \
- $YOUTUBE_URL/$YOUTUBE_KEY
 
  #-profile:v high \
 #VBR="3200k"

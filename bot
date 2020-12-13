@@ -78,5 +78,15 @@ function server {
   done
 }
 
-client
+function dev {
+    echo 
+    SECONDS=0   
+    init
+    download
+    output
+}
+
+dev
+
+#client
 #server
