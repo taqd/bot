@@ -8,8 +8,8 @@ echo -n " | sync "
 cd $data
 tar -cf raw.tar ./raw 
 echo -n "*"
-scp -q -i /home/tdwyer/.ssh/google_compute_engine raw.tar \
+scp -q -i /home/tyler/.ssh/google_compute_engine raw.tar \
   tyler@34.82.123.49:/home/tyler/bot/data/raw_${hostname}.tar
 echo -n "*"
-ssh  -i /home/tdwyer/.ssh/google_compute_engine tyler@34.82.123.49 ./sync_me.sh > /dev/null
+ssh  -i /home/tyler/.ssh/google_compute_engine tyler@34.82.123.49 ./sync_me.sh > /dev/null
 echo "*"
