@@ -121,3 +121,9 @@ if [ -f '/home/tdwyer/Downloads/google-cloud-sdk/path.bash.inc' ]; then . '/home
 if [ -f '/home/tdwyer/Downloads/google-cloud-sdk/completion.bash.inc' ]; then . '/home/tdwyer/Downloads/google-cloud-sdk/completion.bash.inc'; fi
 alias virtual='ssh tyler@34.105.102.221'
 alias virtual1='ssh tyler@35.230.15.106'
+
+alias bot_server='ssh -i ~/.ssh/google_compute_engine 34.82.123.49'
+alias bot_a='ssh -i ~/.ssh/google_compute_engine 35.203.59.152'
+alias bot_b='ssh -i ~/.ssh/google_compute_engine 35.203.102.248'
+alias bot_c='ssh -i ~/.ssh/google_compute_engine 35.226.248.3'
+alias bot_d='ssh -i ~/.ssh/google_compute_engine 34.125.85.148'
