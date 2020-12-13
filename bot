@@ -41,7 +41,11 @@ function sync {
 
 function output {
   cd 3_output
-  ./make_output.sh
+  num=`ls ./data/targets | wc -l`
+  if [[ $num -gt 10 ]]
+  then
+    ./make_output.sh
+  fi
   cd ..
 }
 
