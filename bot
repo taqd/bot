@@ -39,6 +39,12 @@ function sync {
   ./scripts/extract_raws.sh
 }
 
+function output {
+  cd 3_output
+  ./make_output.sh
+  cd ..
+}
+
 function client {
   echo 
   SECONDS=0    
@@ -57,7 +63,7 @@ function server {
     init
     download_all
     sync
-    
+    output
     echo -n " | runtime: ${SECONDS}sec"
     let LEFT=60-SECONDS
     if [[ $LEFT -gt 0 ]]
