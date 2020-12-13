@@ -14,21 +14,19 @@ echo
 #echo  "           |      |      |      |      |      |      |" 
 
 
-echo -n "</span>"
+#echo -n "</span>"
 }
 
 function header {
-
-echo -n "<span foreground='gray'>taqd</span><span foreground='#FF00FF'>.</span><span
-foreground='gray'>ca/kraken</span>"
-
-echo -n "<span foreground='gray'>"
-echo -n "----------------------------------------------------------" 
-echo -n "---------------------------------------------------------" 
-echo -n "---------------------------------------------------------" 
-echo -n "</span>"
-echo
+  echo -n "<span foreground='gray'>taqd</span><span foreground='#FF00FF'>.</span><span foreground='gray'>ca/kraken</span>"
+  echo -n "<span foreground='gray'>"
+  echo -n "----------------------------------------------------------" 
+  echo -n "---------------------------------------------------------" 
+  echo -n "---------------------------------------------------------" 
+  echo -n "</span>"
+  echo
 }
+
 function footer {
 
 echo -n "<span foreground='gray'>"
