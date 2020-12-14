@@ -20,7 +20,7 @@ convert \
   -size 3840x2110 \
   -font FreeMono \
   -pointsize 25 \
-  -fill green  \
+  -fill "#00FF00"  \
   pango:@output.txt \) \
   -gravity center \
   -composite \
@@ -35,7 +35,7 @@ convert \
   -size 1920x1055 \
   -font FreeMono \
   -pointsize 12 \
-  -fill green  \
+  -fill "#00FF00"  \
   pango:@output.txt \) \
   -gravity center \
   -composite \
