@@ -18,6 +18,7 @@ ffmpeg \
  -f lavfi \
  -i anullsrc \
  -c:v libx264 \
+ -b:v 2M \
  -g 25 \
  -x264opts no-scenecut \
  -preset ultrafast \
