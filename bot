@@ -79,11 +79,22 @@ function server {
 }
 
 function dev {
+  while true
+  do
     echo 
     SECONDS=0   
     init
     download
     output
+    echo -n " | runtime: ${SECONDS}sec"
+    let LEFT=60-SECONDS
+    if [[ $LEFT -gt 0 ]]
+    then
+      sleep $LEFT
+    fi
+    echo " *"
+  done
+
 }
 
 dev
