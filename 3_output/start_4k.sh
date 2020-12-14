@@ -22,9 +22,8 @@ ffmpeg \
  -x264opts no-scenecut \
  -preset ultrafast \
  -tune stillimage \
- -crf 0 \
+ -crf 10 \
  -pix_fmt yuv420p \
- -r 30 \
+ -r 25 \
  -f flv \
  $YOUTUBE_URL/$YOUTUBE_KEY
- 

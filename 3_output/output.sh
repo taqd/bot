@@ -8,18 +8,18 @@ header="on"
 paircodes=$root/../settings/paircodes
 function space {
 echo -n "<span foreground='gray'>"
-echo -n "|           |            |            |       |        |      |" 
-echo -n "        |           |           |           |           |           |" 
-echo  "      |       |      |           |      |       |      |" 
+echo -n "|           |            |            |            |         |             |" 
+echo -n "             |             |             |              |       |      |" 
+echo  "      |              |       |      |      |" 
 echo -n "</span>"
 }
 
 function header {
-  echo -n "<span foreground='gray'>taqd</span><span foreground='#FF00FF'>.</span><span foreground='gray'>ca/kraken</span>"
+  echo -n "<span foreground='gray'>taqd</span><span foreground='#FF00FF'>.</span><span foreground='gray'>ca/kraken0</span>"
   echo -n "<span foreground='gray'>"
-  echo -n "----------------------------------------------------------" 
-  echo -n "----------------------------------------------------------" 
-  echo -n "----------------------------------------------------------" 
+  echo -n "-----------------------------------------------------------" 
+  echo -n "-----------------------------------------------------------" 
+  echo -n "-----------------------------------------------------------" 
   echo -n "</span>"
   echo
 }
@@ -27,11 +27,11 @@ function header {
 function footer {
 
 echo -n "<span foreground='gray'>"
-echo -n "---------------------------------------------------------" 
-echo -n "---------------------------------------------------------" 
-echo -n "---------------------------------------------------------" 
+echo -n "-----------------------------------------------------------" 
+echo -n "----------------------------------------------------------" 
+echo -n "----------------------------------------------------------" 
 echo -n "</span>"
-
+TZ=America/Vancouver
 time=`date +"%Y.%j.%H.%M.%S"`
 echo -n "<span foreground='gray'>$time</span>"
 echo

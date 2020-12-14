@@ -7,7 +7,7 @@ function init {                                                           # dirs
 #  mkdir -p ./data/training ./data/modeling
 #  mkdir -p ./data/labels   ./data/predictions
 #  mkdir -p ./data/utility
-
+  TZ=America/Vancouver
   date +"%Y.%j.%H.%M.%S"
   echo -n "age: "
   age_file=./data/state/age
@@ -86,6 +86,6 @@ function dev {
     output
 }
 
-#dev
+dev
 #client
-server
+#server

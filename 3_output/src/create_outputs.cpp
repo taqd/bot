@@ -1,9 +1,9 @@
 #include "../../libs/bot.hpp"
 
-string up =         "<span foreground=\"#00FF00\">⋀</span>",
-         down     = "<span foreground=\"#FF0000\">⋁</span>",
-         up_sig   = "<span foreground=\"#00FFFF\">⋀</span>",
-         down_sig = "<span foreground=\"#FF00FF\">⋁</span>",
+string up =         "<span weight=\"heavy\" foreground=\"#00FF00\">⋀</span>",
+         down     = "<span weight=\"heavy\" foreground=\"#FF0000\">⋁</span>",
+         up_sig   = "<span weight=\"heavy\" foreground=\"#00FFFF\">⋀</span>",
+         down_sig = "<span weight=\"heavy\" foreground=\"#FF00FF\">⋁</span>",
          stay = "<span foreground=\"gray\">•</span>",
          sep = "<span foreground='gray'>|</span>",
          end_span = "</span>",
@@ -24,6 +24,7 @@ class Datum {
   string paircode, nice_name;
   int window, target, prediction;
   float bm, bl, sm, sl, av, bv, ask, bid, vol;
+  int bmn, bln, smn, sln;
   vector<string> depth_ask, depth_bid; 
   int w03, w10, w60, w1440;
   int trd;
@@ -48,18 +49,26 @@ bool Datum::load(string paircode) {
   bl  = stof(get_first(raw_dir + paircode + "_tradeblvolume_sum"));
   sm  = stof(get_first(raw_dir + paircode + "_tradesmvolume_sum"));
   sl  = stof(get_first(raw_dir + paircode + "_tradeslvolume_sum"));
-  av  = stof(get_first(raw_dir + paircode + "_depthaskvolum_sum"));
-  bv  = stof(get_first(raw_dir + paircode + "_depthbidvolum_sum"));
+  bmn  = stoi(get_first(raw_dir + paircode + "_tradebmvolume_count"));
+  bln  = stoi(get_first(raw_dir + paircode + "_tradeblvolume_count"));
+  smn  = stoi(get_first(raw_dir + paircode + "_tradesmvolume_count"));
+  sln  = stoi(get_first(raw_dir + paircode + "_tradeslvolume_count"));
 
+  
   w03 = stof(get_first(targets_dir + paircode + "_tick_askprice_3"));
   w10 = stof(get_first(targets_dir + paircode + "_tick_askprice_10"));
   w60 = stof(get_first(targets_dir + paircode + "_tick_askprice_60"));
   w1440 = stof(get_first(targets_dir + paircode + "_tick_askprice_1440"));
 
+
+  av  = stof(get_first(raw_dir + paircode + "_depthaskvolum_sum"));
+  bv  = stof(get_first(raw_dir + paircode + "_depthbidvolum_sum"));
   depth_ask.push_back(get_first(raw_dir + paircode + "_depthaskprice_count"));
   depth_bid.push_back(get_first(raw_dir + paircode + "_depthbidprice_count"));
   depth_ask.push_back(get_first(raw_dir + paircode + "_depthaskprice_stddev"));
   depth_bid.push_back(get_first(raw_dir + paircode + "_depthbidprice_stddev"));
+  depth_ask.push_back(get_first(raw_dir + paircode + "_depthaskprice_kurt"));
+  depth_bid.push_back(get_first(raw_dir + paircode + "_depthbidprice_kurt"));
   depth_ask.push_back(get_first(raw_dir + paircode + "_depthaskprice_skew"));
   depth_bid.push_back(get_first(raw_dir + paircode + "_depthbidprice_skew"));
 
@@ -93,128 +102,10 @@ void print_pair(Datum d, int header = 0) {
   else if (header == 3) printf("| %-9.9s ", "pair");
   else printf("%s %s%-9.9s%s ", sep.c_str(), pair_color.c_str(), d.nice_name.c_str(), end_span.c_str());
 }
-void print_tick(Datum d, int header = 0) {
-  if      (header == 1) printf("| %23.23s ", "");
-  else if (header == 2) printf("| %23.23s ", "price");
-  else if (header == 3) {
-    printf("| %10.10s ", "ask");
-    printf("| %10.10s ", "bid");
-  } else {
-    if (d.ask < .001) printf("%s %10.8f ", sep.c_str(), d.ask);
-    else if (d.ask < 1) printf("%s %10.4f ", sep.c_str(), d.ask);
-    else if (d.ask < 10) printf("%s %10.2f ", sep.c_str(), d.ask);
-    else printf("%s %10.0f ", sep.c_str(), d.ask);
-    if (d.bid < .001) printf("%s %10.8f ",sep.c_str(), d.bid);
-    else if (d.bid < 1) printf("%s %10.4f ",sep.c_str(), d.bid);
-    else if (d.bid < 10) printf("%s %10.2f ",sep.c_str(), d.bid);
-    else printf("%s %10.0f ", sep.c_str(), d.bid);
-  }
-}
-void print_numtrades(Datum d, int header = 0) {
-  int trades = d.trd;
-  if      (header == 1) printf("|%1.1s", "");
-  else if (header == 2) printf("|%5.5s ", "num");
-  else if (header == 3) printf("|%5.5s ", "trade");
-  else {
-    if (trades == 0) printf("%s%5.5s ", sep.c_str(), "");
-    else if (trades < 10) printf("%s%5d ", sep.c_str(), trades);
-    else printf("%s%5d ", sep.c_str(), trades);
-  }
-}
-
-void print_avgvolume(Datum d, int header = 0) {
-  float volume = d.vol / 1440;
-  if      (header == 1) printf(" %7.7s ", "tick");
-  else if (header == 2) printf("|%7.7s ", "avg vol");
-  else if (header == 3) printf("|%7.7s ", "per min");
-  else {
-    if (volume == 0) printf("%s %6.6s ", sep.c_str(), "");
-    else if (volume < 10) printf("%s %6.4f ", sep.c_str(), volume);
-    else printf("%s %6.0f ", sep.c_str(), volume);
-  }
-}
-
-
-
-void print_ohlcvolume(Datum d, int header = 0) {
-  float volume = d.ohlc_vol;
-  if      (header == 1) printf("%13.13s ", "last min ohlc");
-  else if (header == 2) printf("| %6.6s ", "total");
-  else if (header == 3) printf("| %6.6s ", "volume");
-  else {
-    if (volume == 0) printf("%s %6.6s ", sep.c_str(), "");
-    else if (volume < 10) printf("%s %6.2f ", sep.c_str(), volume);
-    else printf("%s %6.0f ", sep.c_str(), volume);
-  }
-}
-
-
-void print_market(Datum d, int header = 0) {
-  if      (header == 1) printf("| %21.21s ", "");
-  else if (header == 2) printf("| %21.21s ", "market volume");
-  else if (header == 3) {
-    printf("| %9.9s ", "buy");
-    printf("| %9.9s ", "sell");
-  } else {
-    if (d.bm == 0) printf("%s %9s ", sep.c_str(), "");
-    else if (d.bm > 10) printf("%s %9.0f ", sep.c_str(), d.bm);
-    else printf("%s %9.2f ",sep.c_str(), d.bm);
-    if (d.sm == 0) printf("%s %9s ", sep.c_str(), "");
-    else if (d.sm > 10) printf("%s %9.0f ", sep.c_str(), d.sm);
-    else printf("%s %9.2f ", sep.c_str(), d.sm);
-  }
-}
-
-void print_limit(Datum d, int header = 0) {
-  if      (header == 1) printf("  %21.21s ", "trades");
-  else if (header == 2) printf("| %21.21s ", "limit volume");
-  else if (header == 3) {
-    printf("| %9.9s ", "buy");
-    printf("| %9.9s ", "sell");
-  } else {
-    if (d.bl == 0) printf("%s %9s ", sep.c_str(), "");
-    else if (d.bl > 10) printf("%s %9.0f ", sep.c_str(), d.bl);
-    else printf("%s %9.2f ", sep.c_str(), d.bl);
-    if (d.bl == 0) printf("%s %9s ",sep.c_str(), "");
-    else if (d.sl > 10) printf("%s %9.0f ", sep.c_str(), d.sl);
-    else printf("%s %9.2f ", sep.c_str(), d.sl);
-  }
-}
-void print_depthask(Datum d, int header = 0) {
-  if      (header == 1) printf("| %31.31s ", "");
-  else if (header == 2) printf("| %31.31s ", "ask");
-  else if (header == 3)   
-    printf("| %9.9s | %4.4s | %5.5s | %4.4s ", "sum vol", "num", "std", "skew");
-  else {  
-    if (d.av > 1000000) printf("%s %9.0f ", sep.c_str(), d.av);
-    else if (d.av < 1) printf("%s %9.4f ", sep.c_str(), d.av);
-    else if (d.av < 10) printf("%s %9.2f ", sep.c_str(), d.av);
-    else printf("%s %9.0f ", sep.c_str(), d.av);
-  
-    printf("%s %4.4s ", sep.c_str(), d.depth_ask[0].c_str());
-    printf("%s %5.5s ", sep.c_str(), d.depth_ask[1].c_str());
-    printf("%s %4.4s ", sep.c_str(), d.depth_ask[2].c_str());
-  }  
-}  
-void print_depthbid(Datum d, int header = 0) {
-  if      (header == 1) printf("  %31.31s ", "order book");
-  else if (header == 2) printf("| %31.31s ", "bids");
-  else if (header == 3) printf("| %9.9s | %4.4s | %5.5s | %5.5s", "sum", "num", "std", "skew");
-  else {
-    if (d.av > 1000000) printf("%s %9.0f ", sep.c_str(), d.av);
-    else if (d.av < 1) printf("%s %9.4f ", sep.c_str(), d.av);
-    else if (d.av < 10) printf("%s %9.2f ", sep.c_str(), d.av);
-    else printf("%s %9.0f ", sep.c_str(), d.av);
-
-    printf("%s %4.4s ", sep.c_str(), d.depth_bid[0].c_str());
-    printf("%s %5.5s ", sep.c_str(), d.depth_bid[1].c_str());
-    printf("%s %4.4s ", sep.c_str(), d.depth_bid[2].c_str());
-  }
-}
 
 void print_delta(Datum d, int header = 0) {
   float volume = d.vol / 1440;
-  string win3,win10,win60;
+  string win3,win10,win60,win1440;
 
   if (d.w03 == 5) win3 = up_sig;
   if (d.w03 == 4) win3 = up;
@@ -231,12 +122,139 @@ void print_delta(Datum d, int header = 0) {
   if (d.w60 == 3) win60 = stay;
   if (d.w60 == 2) win60 = down;
   if (d.w60 == 1) win60 = down_sig;
+  if (d.w1440 == 5) win1440 = up_sig;
+  if (d.w1440 == 4) win1440 = up;
+  if (d.w1440 == 3) win1440 = stay;
+  if (d.w1440 == 2) win1440 = down;
+  if (d.w1440 == 1) win1440 = down_sig;
+
+  if      (header == 1) printf("| %10.10s ", "" );
+  else if (header == 2) printf("| %10.10s ", "ask delta");
+  else if (header == 3) printf("|%2.2s %2.2s %3.3s %2.2s", "1d", "1h", "10m", "3m");
+  else printf("%s %s  %s  %s  %s ", \
+      sep.c_str(), win1440.c_str(), win60.c_str(), win10.c_str(), win3.c_str());
+}
 
 
-  if      (header == 1) printf("  %5.5s ", "" );
-  else if (header == 2) printf("|%7.7s", " delta ");
-  else if (header == 3) printf("|%2.2s %2.2s %1.1s", "60", "10", "3");
-  else printf("%s %s %s %s ", sep.c_str(), win60.c_str(), win10.c_str(), win3.c_str());
+void print_tick(Datum d, int header = 0) {
+  if      (header == 1) printf("  %23.23s ", "");
+  else if (header == 2) printf("| %23.23s ", "price");
+  else if (header == 3) {
+    printf("| %10.10s ", "ask");
+    printf("| %10.10s ", "bid");
+  } else {
+    if (d.ask < .001) printf("%s %10.8f ", sep.c_str(), d.ask);
+    else if (d.ask < 1) printf("%s %10.4f ", sep.c_str(), d.ask);
+    else if (d.ask < 10) printf("%s %10.2f ", sep.c_str(), d.ask);
+    else printf("%s %10.0f ", sep.c_str(), d.ask);
+    if (d.bid < .001) printf("%s %10.8f ",sep.c_str(), d.bid);
+    else if (d.bid < 1) printf("%s %10.4f ",sep.c_str(), d.bid);
+    else if (d.bid < 10) printf("%s %10.2f ",sep.c_str(), d.bid);
+    else printf("%s %10.0f ", sep.c_str(), d.bid);
+  }
+}
+
+void print_avgvolume(Datum d, int header = 0) {
+  float volume = d.vol / 1440;
+  if      (header == 1) printf(" %8.8s ", "tick");
+  else if (header == 2) printf("| %7.7s ", "24h vol");
+  else if (header == 3) printf("| %7.7s ", "per min");
+  else {
+    if (volume == 0) printf("%s %7.7s ", sep.c_str(), "");
+    else if (volume < 10) printf("%s %7.4f ", sep.c_str(), volume);
+    else printf("%s %7.0f ", sep.c_str(), volume);
+  }
+}
+
+void print_numtrades(Datum d, int header = 0) {
+  int trades = d.trd;
+  if      (header == 1) printf("|%5.5s ", "");
+  else if (header == 2) printf("|%5.5s ", "num");
+  else if (header == 3) printf("|%5.5s ", "trade");
+  else {
+    if (trades == 0) printf("%s%5.5s ", sep.c_str(), "");
+    else if (trades < 10) printf("%s%5d ", sep.c_str(), trades);
+    else printf("%s%5d ", sep.c_str(), trades);
+  }
+}
+
+void print_ohlcvolume(Datum d, int header = 0) {
+  float volume = d.ohlc_vol;
+  if      (header == 1) printf("%13.13s ", "ohlc");
+  else if (header == 2) printf("| %7.7s ", "24h avg");
+  else if (header == 3) printf("| %7.7s ", "vol/min");
+  else {
+    if (volume == 0) printf("%s %6.6s ", sep.c_str(), "");
+    else if (volume < 10) printf("%s %6.2f ", sep.c_str(), volume);
+    else printf("%s %6.0f ", sep.c_str(), volume);
+  }
+}
+
+
+void print_market(Datum d, int header = 0) {
+  if      (header == 1) printf("| %25.25s ", "");
+  else if (header == 2) printf("| %25.25s ", "market volume");
+  else if (header == 3) {
+    printf("| %11.11s ", "buy(num)");
+    printf("| %11.11s ", "sell(num)");
+  } else {
+    if (d.bm == 0)      printf("%s %11s ",       sep.c_str(), "");
+    else if (d.bm > 10) printf("%s%7.0f(%3.d) ", sep.c_str(), d.bm, d.bmn);
+    else                printf("%s%7.2f(%3.d) ", sep.c_str(), d.bm, d.bmn);
+    if (d.sm == 0)      printf("%s %11s ",       sep.c_str(), "");
+    else if (d.sm > 10) printf("%s%7.0f(%3.d) ", sep.c_str(), d.sm, d.smn);
+    else                printf("%s%7.2f(%3.d) ", sep.c_str(), d.sm, d.smn);
+  }  
+}  
+  
+void print_limit(Datum d, int header = 0) {  
+  if      (header == 1) printf("  %25.25s ", "trades");
+  else if (header == 2) printf("| %25.25s ", "limit volume");
+  else if (header == 3) {  
+    printf("| %11.11s ", "buy(num)");  
+    printf("| %11.11s ", "sell(num)");  
+  } else {  
+    if (d.bl == 0)      printf("%s %11s ",       sep.c_str(), "");
+    else if (d.bl > 10) printf("%s%7.0f(%3.d) ", sep.c_str(), d.bl, d.bln);
+    else                printf("%s%7.2f(%3.d) ", sep.c_str(), d.bl, d.bln);
+    if (d.bl == 0)      printf("%s %11s ",       sep.c_str(), "");
+    else if (d.sl > 10) printf("%s%7.0f(%3.d) ", sep.c_str(), d.sl, d.sln);
+    else                printf("%s%7.2f(%3.d) ", sep.c_str(), d.sl, d.sln);
+  }
+}
+void print_depthask(Datum d, int header = 0) {
+  if      (header == 1) printf("| %34.34s ", "");
+  else if (header == 2) printf("| %12.12s | %19.19s ", "ask volume", "ask price");
+  else if (header == 3)     
+    printf("| %12.12s | %5.5s | %4.4s | %4.4s ", "sum(num)", "std", "skew", "kurt");
+  else {    
+    string cnt = d.depth_ask[0];   
+    if (d.av > 1000000) printf("%s %7.0f(%3.3s) ", sep.c_str(), d.av, cnt.c_str());
+    else if (d.av < 1)  printf("%s %7.4f(%3.3s) ", sep.c_str(), d.av, cnt.c_str());
+    else if (d.av < 10) printf("%s %7.2f(%3.3s) ", sep.c_str(), d.av, cnt.c_str());
+    else                printf("%s %7.0f(%3.3s) ", sep.c_str(), d.av, cnt.c_str());
+    
+    printf("%s %5.5s ", sep.c_str(), d.depth_ask[1].c_str());
+    printf("%s %4.4s ", sep.c_str(), d.depth_ask[2].c_str());
+    printf("%s %4.4s ", sep.c_str(), d.depth_ask[3].c_str());
+  }    
+}    
+void print_depthbid(Datum d, int header = 0) {
+  if      (header == 1) printf("  %34.34s ", "order book");
+  else if (header == 2) printf("| %12.12s | %19.19s ", "bid volume", "bid price");
+  else if (header == 3) 
+    printf("| %12.12s | %5.5s | %4.4s | %4.4s ", "sum(num)", "std", "skew", "kurt");
+  else {
+    string cnt = d.depth_bid[0]; 
+    if (d.bv > 1000000) printf("%s %7.0f(%3.3s) ", sep.c_str(), d.bv, cnt.c_str());
+    else if (d.bv < 1)  printf("%s %7.4f(%3.3s) ", sep.c_str(), d.bv, cnt.c_str());
+    else if (d.bv < 10) printf("%s %7.2f(%3.3s) ", sep.c_str(), d.bv, cnt.c_str());
+    else                printf("%s %7.0f(%3.3s) ", sep.c_str(), d.bv, cnt.c_str());
+
+    printf("%s %5.5s ", sep.c_str(), d.depth_bid[1].c_str());
+    printf("%s %4.4s ", sep.c_str(), d.depth_bid[2].c_str());
+    printf("%s %4.4s ", sep.c_str(), d.depth_bid[3].c_str());
+  }
 }
 
 
@@ -281,11 +299,11 @@ int main(int argc, char* argv[]) {
     cout << "<span foreground='grey'>";
     for (int i = 1 ; i <= 3; ++i) {
       print_pair(d,i);
-      print_tick(d,i);
       print_delta(d,i);
+      print_tick(d,i);
       print_avgvolume(d,i);
-      print_numtrades(d,i);
-      print_ohlcvolume(d,i);
+      //print_numtrades(d,i);
+      //print_ohlcvolume(d,i);
       print_market(d,i);
       print_limit(d,i);
       print_depthask(d,i);
@@ -297,11 +315,11 @@ int main(int argc, char* argv[]) {
     cout << "</span>";
   }
   print_pair(d);
-  print_tick(d);
   print_delta(d);
+  print_tick(d);
   print_avgvolume(d);
-  print_numtrades(d);
-  print_ohlcvolume(d);
+  //print_numtrades(d);
+  //print_ohlcvolume(d);
   print_market(d);
   print_limit(d);
   print_depthask(d);
