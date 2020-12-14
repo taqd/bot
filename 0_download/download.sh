@@ -11,26 +11,29 @@ codes=`cat $root/../settings/paircodes/*`
  
 function tick {
   SECONDS=0
-  cat $root/../settings/paircodes/* | timeout $timeout xargs -n 1 -P 4 $root/bin/kraken_tick
+  cat $root/../settings/paircodes/* | timeout $timeout xargs -n 1 -P 4 $root/bin/kraken_tick \
+    2> $data/state/errors_tick
   echo -n " tick $SECONDS "
 }
 
 function ohlc {
   SECONDS=0
-
- cat $root/../settings/paircodes/* |  timeout $timeout xargs -n 1 -P 4 $root/bin/kraken_ohlc
+ cat $root/../settings/paircodes/* |  timeout $timeout xargs -n 1 -P 4 $root/bin/kraken_ohlc \
+    2> $data/state/errors_ohlc
   echo -n " ohlc $SECONDS "
 }
 
 function depth {
   SECONDS=0
-  cat $root/../settings/paircodes/* | timeout $timeout  xargs -n 1 -P 4 $root/bin/kraken_depth
+  cat $root/../settings/paircodes/* | timeout $timeout  xargs -n 1 -P 4 $root/bin/kraken_depth \
+    2> $data/state/errors_depth
   echo -n " depth $SECONDS "
 }
 
 function trade {
   SECONDS=0
-  cat $root/../settings/paircodes/* | timeout $timeout  xargs -n 1 -P 4 $root/bin/kraken_trade  
+  cat $root/../settings/paircodes/* | timeout $timeout  xargs -n 1 -P 4 $root/bin/kraken_trade \
+    2> $data/state/errors_trade
   echo -n " trade $SECONDS "
 }
 
