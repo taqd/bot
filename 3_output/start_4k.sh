@@ -18,13 +18,12 @@ ffmpeg \
  -f lavfi \
  -i anullsrc \
  -c:v libx264 \
- -b:v 2M \
- -g 25 \
+ -g 200 \
  -x264opts no-scenecut \
  -preset ultrafast \
  -tune stillimage \
- -crf 10 \
+ -crf 30 \
  -pix_fmt yuv420p \
- -r 25 \
+ -r 30 \
  -f flv \
  $YOUTUBE_URL/$YOUTUBE_KEY
