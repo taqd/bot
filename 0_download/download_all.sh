@@ -2,17 +2,17 @@
 
 
 function go_a {
-  ssh  -i /home/tyler/.ssh/google_compute_engine tyler@35.203.102.248 'cd bot; make run' 
+  ssh  -i /home/tyler/.ssh/google_compute_engine tyler@35.203.99.79 'cd bot; make run' 
   echo -n "*"
 }
 
 function go_b {
-  ssh  -i /home/tyler/.ssh/google_compute_engine tyler@35.203.59.152 'cd bot; make run' 
+  ssh  -i /home/tyler/.ssh/google_compute_engine tyler@35.203.12.212 'cd bot; make run' 
   echo -n "*"
 }
 
 function go_c {
-  ssh  -i /home/tyler/.ssh/google_compute_engine tyler@35.226.248.3 'cd bot; make run' 
+  ssh  -i /home/tyler/.ssh/google_compute_engine tyler@34.69.202.219 'cd bot; make run' 
   echo -n "*"
 }
 

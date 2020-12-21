@@ -18,7 +18,7 @@ ffmpeg \
  -f lavfi \
  -i anullsrc \
  -c:v libx264 \
- -g 200 \
+ -g 100 \
  -x264opts no-scenecut \
  -preset ultrafast \
  -tune stillimage \

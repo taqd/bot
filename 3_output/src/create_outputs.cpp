@@ -226,7 +226,7 @@ void print_depthask(Datum d, int header = 0) {
   if      (header == 1) printf("| %34.34s ", "");
   else if (header == 2) printf("| %12.12s | %19.19s ", "ask volume", "ask price");
   else if (header == 3)     
-    printf("| %12.12s | %5.5s | %4.4s | %4.4s ", "sum(num)", "std", "skew", "kurt");
+    printf("| %12.12s | %5.5s | %4.4s | %4.4s ", "sum(num)", "std", "kurt", "skew");
   else {    
     string cnt = d.depth_ask[0];   
     if (d.av > 1000000) printf("%s %7.0f(%3.3s) ", sep.c_str(), d.av, cnt.c_str());
@@ -243,7 +243,7 @@ void print_depthbid(Datum d, int header = 0) {
   if      (header == 1) printf("  %34.34s ", "order book");
   else if (header == 2) printf("| %12.12s | %19.19s ", "bid volume", "bid price");
   else if (header == 3) 
-    printf("| %12.12s | %5.5s | %4.4s | %4.4s ", "sum(num)", "std", "skew", "kurt");
+    printf("| %12.12s | %5.5s | %4.4s | %4.4s ", "sum(num)", "std", "kurt", "skew");
   else {
     string cnt = d.depth_bid[0]; 
     if (d.bv > 1000000) printf("%s %7.0f(%3.3s) ", sep.c_str(), d.bv, cnt.c_str());

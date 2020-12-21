@@ -17,7 +17,7 @@ echo -n "</span>"
 function header {
   echo -n "<span foreground='gray'>taqd</span><span foreground='#FF00FF'>.</span><span foreground='gray'>ca/kraken0</span>"
   echo -n "<span foreground='gray'>"
-  echo -n "-----------------------------------------------------------" 
+  echo -n " -- in beta -- per minute data ----------------------------" 
   echo -n "-----------------------------------------------------------" 
   echo -n "-----------------------------------------------------------" 
   echo -n "</span>"
@@ -31,8 +31,8 @@ echo -n "-----------------------------------------------------------"
 echo -n "----------------------------------------------------------" 
 echo -n "----------------------------------------------------------" 
 echo -n "</span>"
-time=`date -d '-8 hour' +"%Y.%j.%H.%M.%S"`
-echo -n "<span foreground='gray'>$time</span>"
+time_of_update=`cat $data/state/time_of_update`
+echo -n "<span foreground='gray'>$time_of_update</span>"
 echo
 }
 header

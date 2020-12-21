@@ -8,7 +8,9 @@ function init {                                                           # dirs
 #  mkdir -p ./data/labels   ./data/predictions
 #  mkdir -p ./data/utility
   TZ=America/Vancouver
-  date +"%Y.%j.%H.%M.%S"
+  time_of_update_file=./data/state/time_of_update
+  echo `date -d '-8 hour' +"%Y.%j.%H.%M.%S"` > $time_of_update_file
+  cat $time_of_update_file
   echo -n "age: "
   age_file=./data/state/age
   if [[ ! -f "${age_file}" ]]; then
@@ -97,6 +99,6 @@ function dev {
 
 }
 
-dev
+#dev
 #client
-#server
+server
